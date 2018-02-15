@@ -1,0 +1,291 @@
+/* Archivo SCSS */
+
+$page-title: 'Pinyon Script', cursive;
+$page-description: 'Yellowtail', cursive;
+
+a {
+  &:visited {
+    color: $primary-color;
+  }
+}
+
+.byline {
+  display: inline;
+}
+
+.separator::after {
+  background-image: url( '../images/separator.png' );
+  background-position: center center;
+  background-repeat: no-repeat;
+  content: '';
+  display: block;
+  margin: 0 auto;
+  height: rem-calc( 10 );
+  width: rem-calc( 50 );
+}
+
+header {
+    .header-image {
+        background-position: center center;
+        background-repeat: no-repeat;
+        height: 376px;
+
+        .site-branding {
+            padding-top: rem-calc( 120 ); /* rem-calc(): función de 'Foundation' que converte pixeles a rem */
+
+            h1 {
+              &.site-title {
+                font-family: $page-title;
+              }
+            }
+
+            p {
+              &.site-title {
+                font-family: $page-title;
+                font-size: rem-calc( 80 );
+              }
+              &.site-description {
+                font-family: 'Yellowtail', cursive;
+                font-size: rem-calc( 30 );
+                /* Las siguientes 3 líneas reemplazan text-decoration: underline; y permiten una mejor personalización */
+                border-bottom: 1px solid $white;
+                display: inline-block;
+                line-height: 40px;
+              }
+            }
+
+            a,
+            p {
+                color: $white;
+            }
+        }
+    }
+
+    nav {
+        &.main-navigation{
+            background-color: $primary-color;
+
+            /* Agregamos un Mixin de Foundation para crear un 'breakpoint' para cambiar
+             * Los estilos cuando se redimensione la ventana del navegador a un tamaño
+             * específico */
+            @include breakpoint( medium ) {
+                .title-bar {
+                  display: none;
+                }
+            }
+
+            .menu-icon {
+              /* Agregamos un Mixin de Foundation para crear un menú hamburguesa
+               * los parametros son:
+               * Color, Color Hover, Ancho del botón, Alto del Botón, Grosor de las barras, Cantidad de barras
+               */
+              @include hamburger( $white, $white, 30px, 20px, 4px, 3 );
+              box-shadow: none;
+            }
+
+            ul {
+                @include breakpoint( medium ) {
+                    display: flex;
+                }
+                li {
+                    float: none;
+
+                    &.current-menu-item {
+                      background-color: $white;
+
+                      a {
+                        color: $primary-color;
+                        transition: all 0.5s ease;
+
+                        &:hover {
+                          background-color: lighten( $primary-color, 10 );
+                          color: white;
+                        }
+                      }
+                    }
+
+                    a {
+                        color: $white;
+                        font-weight: bold;
+                        padding: rem-calc( 20 0 ) !important; /* 10px (Arriba/Abajo) 0px (Derecha/Izquierda)
+                                                                 Al agregarle !important se redimensiona el menú
+                                                                 adecuadamente al agrandar o reducir la ventana
+                                                                 del navegador (Firefox no funciona hay que recargar) */
+                        transition: background-color 0.5s ease;
+
+                        &:hover {
+                            background-color:  darken( $primary-color, 10 );
+                        }
+
+                        i {
+                            font-size: rem-calc( 20 );
+                            padding-right: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.header-no-image {
+  @extend .header-image;    /* Heredamos los estilos de la clase 'header-image' */
+  background-color: lighten( $primary-color, 10 );
+}
+
+
+/* Page: index.php
+ * Últimas Recetas
+ */
+#content {
+  margin-top: rem-calc( 30 );
+
+  div {
+    &.entry-meta {
+      i {
+        font-size: rem-calc( 24 );
+      }
+      a {
+        color: $black;
+      }
+    }
+  }
+
+  h1 {
+    &.page-title {
+      @extend .entry-title;
+    }
+    &.entry-title {
+      @extend .separator;
+      @include breakpoint( medium ) {
+        font-size: rem-calc( 40 );
+      }
+    }
+  }
+
+   h2 {
+     &.ultimas-recetas {
+       margin-bottom: rem-calc( 30 );
+       @extend .separator;  /* Hereda de la clase 'separator' */
+     }
+     &.entry-title {
+       font-size: rem-calc( 24 );
+
+       a {
+         color: $black;
+       }
+     }
+   }
+
+   div {
+     &.entry-content {
+       margin-top: rem-calc( 18 );
+
+       a {
+          display: table;
+
+         &.button {
+           font-weight: bold;
+           margin-top: rem-calc( 20 );
+           text-transform: uppercase;
+
+           &:visited {
+             color: $white;
+           }
+         }
+       }
+     }
+   }
+ }
+/* --- ASIDE --- */
+aside {
+  h2 {
+    &.widget-title {
+      @extend .separator;
+    }
+  }
+  h3 {
+    &.last-post {
+      font-size: rem-calc( 26 );
+      /* Agregamos Mixin de Foundation */
+      @include breakpoint( medium ) {
+        font-size: rem-calc( 19 );
+      }
+    }
+  }
+  .widget_ultimos_post {
+    li {
+      margin-bottom: rem-calc( 14 );
+    }
+  }
+}
+/* --- FOOTER --- */
+footer {
+  &.site-footer {
+    background-color: $dark-gray;
+    padding: rem-calc( 20 0 );
+
+    ul {
+      margin-top: rem-calc( 20 );
+
+      li {
+        a {
+          color: $white;
+        }
+      }
+
+      /* Menú de redes sociales */
+      &#social-menu {
+        margin-top: 0;
+
+        li {
+          a {
+            font-family: foundation-icons;
+            color: $white;
+            font-size: 0;  /* Disminuye el tamaño de los enlaces y los iconos*/
+
+            &:before {
+              /* Afectará a lo que esté antes del enlace */
+              font-size: rem-calc( 50 );  /* Aumenta el tamaño de los íconos */
+            }
+
+            &[href='http://www.facebook.com']:before {
+              /* Colocará Icono Facebook de Foundation Icons antes del enlace */
+              content: '\f1c4';
+            }
+
+            &[href='http://www.twitter.com']:before {
+              /* Colocará Icono Twitter de Foundation Icons antes del enlace */
+              content: '\f1e4';
+            }
+
+            &[href='http://www.youtube.com']:before {
+              /* Colocará Icono YouTube de Foundation Icons antes del enlace */
+              content: '\f1ea';
+            }
+
+          }
+        }
+      }
+    }
+  }
+}
+/* Contact Form 7
+ * Formulario: Contacto
+ */
+ #btn-send-newsletter,
+ #btn-enviar {
+   /* Aplicamos un Mixin de Foundation para darle estilo al botón de enviar del formulario */
+   @include button-style(
+     $primary-color,                 /* Color del Botón */
+     darken( $primary-color, 10 ),   /* Color del Hover del Botón */
+     $white                          /* Color del texto del Botón */
+   );
+   border-radius: 0;
+   border: none;
+   box-shadow: none;
+   font-size: rem-calc( 16 );
+   font-weight: bold;
+   padding: $button-padding;
+   text-transform: uppercase;
+ }
