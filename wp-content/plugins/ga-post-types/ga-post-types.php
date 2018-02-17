@@ -119,6 +119,50 @@ add_action(
   'crear_taxonomy_recetas'                    // La funcionalidad o código a desplegar
 );
 
+// Crea un taxonomy (Horarios de Comida) para el CPT 'Recetas'
+function crear_taxonomy_horario_comida() {
+  // Array de etiquetas personalizadas para el 'Taxonomy'
+  $labels = array(
+      'name'                => _x( 'Horarios de Comida', 'Taxonomy General Name', 'gourmet-artist' ),         // Nombre del post type (para la vista)
+      'singular_name'       => _x( 'Horario de Comida', 'Taxonomy Singular Name', 'gourmet-artist' ),
+      'menu_name'           => __( 'Horarios', 'gourmet-artist' ),
+      'search_items'        => __( 'Buscar Horario de Comida', 'gourmet-artist' ),
+      'parent_item'         => __( 'Horario (Padre)', 'gourmet-artist' ),
+      'parent_item_color'   => __( 'Horario (Padre):', 'gourmet-artist' ),
+      'all_items'           => __( 'Todos los horarios', 'gourmet-artist' ),
+      'add_new_item'        => __( 'Agregar Nuevo Horario', 'gourmet-artist' ),
+      'new_item_name'       => __( 'Nuevo Horario de Comida', 'gourmet-artist' ),
+      'edit_item'           => __( 'Editar Horario de Comida', 'gourmet-artist' ),
+      'update_item'         => __( 'Actualizar Horario de Comida', 'gourmet-artist' )
+  );
+  /* NOTA: se agrega 'gourmet-artist' en cada una de las etiquetas, por que es importante si se va a usar la 'internacionalización del theme de WP' */
+
+  // Más opciones para la personalización del 'Taxonomy'
+  $args = array(
+    'labels'              => $labels,       // Etiquetas personalizadas para el 'Taxonomy' definidas en la variable $labels
+    'hierarchical'        => true,          // [true/false] habilitar o deshabilitar el comportamiento jerarquico (padres e hijos) su comportamiento sería como el de una página (page)
+    'show_ui'             => true,          // [true/false] Genera y permite o no una interfaz de usuario para administrar esta publicación en el administrador (que se vea la interfaz)
+    'show_admin_column'   => true,          // [true/false] Mostrar o no la creación de columnas de taxonomía en la tabla de tipos asociados en la administración
+    'query_var'           => true,          // [true/false] Habilita o no el uso el nombre de la taxonomía para hacer consultas directas a través de WP_Query y consultas URL (Aunque se pueden realizar consultas haciendo uso de una consulta WP_Query específica)
+    'rewrite'             => array(         // Establece reescritura de la URL automática
+      'slug' => 'horario-comida'            // Nombre del Slug para la taxonomía creada
+    ),
+  );
+
+  // 'register_taxonomy' Crea y registra una taxonomía en WP
+  register_taxonomy(
+    'horario_menu',       // Nombre de la taxonomía
+    array( 'recetas' ),   // Nombre del "Post Type" o los "Post Types" donde se desea aplicar esta taxonomía
+    $args                 // Los argumentos de personalización del "Taxonomy"
+  );
+
+}
+// Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
+add_action(
+  'init',                                     // Lugar donde queremos que se ejecute la funcionalidad
+  'crear_taxonomy_horario_comida'             // La funcionalidad o código a desplegar
+);
+
 // Crea un post type 'Eventos'
 function crear_post_type_eventos() {
 
