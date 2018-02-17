@@ -75,20 +75,43 @@ add_action(
 );
 /* NOTA: Se establecen prioridades cuando se usa un Hook para asociar dos funciones (funcionalidades) */
 
-// Crea un taxonomies para 'Recetas'
+// Crea un taxonomy (Tipos de Comida) para el CPT 'Recetas'
 function crear_taxonomy_recetas() {
+  // Array de etiquetas personalizadas para el 'Taxonomy'
+  $labels = array(
+      'name'                => _x( 'Tipos de Comida', 'Taxonomy General Name', 'gourmet-artist' ),         // Nombre del post type (para la vista)
+      'singular_name'       => _x( 'Tipo de Comida', 'Taxonomy Singular Name', 'gourmet-artist' ),
+      'menu_name'           => __( 'Tipos de Comida', 'gourmet-artist' ),
+      'search_items'        => __( 'Buscar Tipo de Comida', 'gourmet-artist' ),
+      'parent_item'         => __( 'Tipo de comida (Padre)', 'gourmet-artist' ),
+      'parent_item_color'   => __( 'Tipo de comida (Padre):', 'gourmet-artist' ),
+      'all_items'           => __( 'Todos los tipos', 'gourmet-artist' ),
+      'add_new_item'        => __( 'Agregar Nuevo Tipo de Comida', 'gourmet-artist' ),
+      'new_item_name'       => __( 'Nuevo Tipo de Comida', 'gourmet-artist' ),
+      'edit_item'           => __( 'Editar Tipo de Comida', 'gourmet-artist' ),
+      'update_item'         => __( 'Actualizar Tipo de Comida', 'gourmet-artist' )
+  );
+  /* NOTA: se agrega 'gourmet-artist' en cada una de las etiquetas, por que es importante si se va a usar la 'internacionalización del theme de WP' */
+
+  // Más opciones para la personalización del 'Taxonomy'
+  $args = array(
+    'labels'              => $labels,       // Etiquetas personalizadas para el 'Taxonomy' definidas en la variable $labels
+    'hierarchical'        => true,          // [true/false] habilitar o deshabilitar el comportamiento jerarquico (padres e hijos) su comportamiento sería como el de una página (page)
+    'show_ui'             => true,          // [true/false] Genera y permite o no una interfaz de usuario para administrar esta publicación en el administrador (que se vea la interfaz)
+    'show_admin_column'   => true,          // [true/false] Mostrar o no la creación de columnas de taxonomía en la tabla de tipos asociados en la administración
+    'query_var'           => true,          // [true/false] Habilita o no el uso el nombre de la taxonomía para hacer consultas directas a través de WP_Query y consultas URL (Aunque se pueden realizar consultas haciendo uso de una consulta WP_Query específica)
+    'rewrite'             => array(         // Establece reescritura de la URL automática
+      'slug' => 'tipo-receta'               // Nombre del Slug para la taxonomía creada
+    ),
+  );
+
   // 'register_taxonomy' Crea y registra una taxonomía en WP
   register_taxonomy(
     'tipo_de_receta',     // Nombre de la taxonomía
-    'recetas',            // Nombre del "Post Type" donde se desea aplicar esta taxonomía
-    array(
-      'label' => __( 'Tipo de Receta' ),      // Etiqueta con el nombre de la taxonomía (a desplegar en la vista del admin de WP)
-      'rewrite' => array(                     // Establece reescritura de la URL automática
-        'slug' => 'tipo-receta'               // Nombre del Slug para la taxonomía creada
-      ),
-      'hierarchical' => true                  // [true/false] Si va a tener un comportamiento jerarquico (osea que va a tener categorías)
-    )
+    array( 'recetas' ),   // Nombre del "Post Type" o los "Post Types" donde se desea aplicar esta taxonomía
+    $args                 // Los argumentos de personalización del "Taxonomy"
   );
+
 }
 // Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
 add_action(
