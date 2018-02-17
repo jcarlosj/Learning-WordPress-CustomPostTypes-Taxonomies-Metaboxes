@@ -75,6 +75,27 @@ add_action(
 );
 /* NOTA: Se establecen prioridades cuando se usa un Hook para asociar dos funciones (funcionalidades) */
 
+// Crea un taxonomies para 'Recetas'
+function crear_taxonomy_recetas() {
+  // 'register_taxonomy' Crea y registra una taxonomía en WP
+  register_taxonomy(
+    'tipo_de_receta',     // Nombre de la taxonomía
+    'recetas',            // Nombre del "Post Type" donde se desea aplicar esta taxonomía
+    array(
+      'label' => __( 'Tipo de Receta' ),      // Etiqueta con el nombre de la taxonomía (a desplegar en la vista del admin de WP)
+      'rewrite' => array(                     // Establece reescritura de la URL automática
+        'slug' => 'tipo-receta'               // Nombre del Slug para la taxonomía creada
+      ),
+      'hierarchical' => true                  // [true/false] Si va a tener un comportamiento jerarquico (osea que va a tener categorías)
+    )
+  );
+}
+// Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
+add_action(
+  'init',                                     // Lugar donde queremos que se ejecute la funcionalidad
+  'crear_taxonomy_recetas'                    // La funcionalidad o código a desplegar
+);
+
 // Crea un post type 'Eventos'
 function crear_post_type_eventos() {
 
