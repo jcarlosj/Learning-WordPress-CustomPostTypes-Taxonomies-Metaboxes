@@ -140,4 +140,60 @@ add_action(
 );
 /* NOTA: Se establecen prioridades cuando se usa un Hook para asociar dos funciones (funcionalidades) */
 
+// Crea un post type 'Restaurantes' usando 'GenerateWP' - https://generatewp.com
+function custom_post_type_restaurantes() {
+
+	$labels = array(
+		'name'                  => _x( 'Restaurantes', 'Post Type General Name', 'gourmet-artist' ),
+		'singular_name'         => _x( 'Restaurante', 'Post Type Singular Name', 'gourmet-artist' ),
+		'menu_name'             => __( 'Restaurantes', 'gourmet-artist' ),
+		'name_admin_bar'        => __( 'Restaurantes', 'gourmet-artist' ),
+		'archives'              => __( 'Archivo de restaurante', 'gourmet-artist' ),
+		'attributes'            => __( 'Atributos de restaurante', 'gourmet-artist' ),
+		'parent_item_colon'     => __( 'Restaurante Padre', 'gourmet-artist' ),
+		'all_items'             => __( 'Todos los artículos', 'gourmet-artist' ),
+		'add_new_item'          => __( 'Agregar Nuevo Restaurante', 'gourmet-artist' ),
+		'add_new'               => __( 'Agregar Nuevo Restaurante', 'gourmet-artist' ),
+		'new_item'              => __( 'Nuevo Restaurante', 'gourmet-artist' ),
+		'edit_item'             => __( 'Editar Restaurante', 'gourmet-artist' ),
+		'update_item'           => __( 'Actualizar Restaurante', 'gourmet-artist' ),
+		'view_item'             => __( 'Ver Restaurante', 'gourmet-artist' ),
+		'view_items'            => __( 'Ver Restaurantes', 'gourmet-artist' ),
+		'search_items'          => __( 'Buscar Restaurante', 'gourmet-artist' ),
+		'not_found'             => __( 'No Encuentra Restaurante', 'gourmet-artist' ),
+		'not_found_in_trash'    => __( 'No Encuentra Restaurante en la Papelera', 'gourmet-artist' ),
+		'featured_image'        => __( 'Imagen Destacada', 'gourmet-artist' ),
+		'set_featured_image'    => __( 'Agregar Imagen Destacada', 'gourmet-artist' ),
+		'remove_featured_image' => __( 'Eliminar Imagen Destacada', 'gourmet-artist' ),
+		'use_featured_image'    => __( 'Usar Imagen Destacada', 'gourmet-artist' ),
+		'insert_into_item'      => __( 'Insertar Dentro Restaurante', 'gourmet-artist' ),
+		'uploaded_to_this_item' => __( 'Agregado a este Restaurante', 'gourmet-artist' ),
+		'items_list'            => __( 'Lista de Restaurantes', 'gourmet-artist' ),
+		'items_list_navigation' => __( 'Navegación de Restaurantes', 'gourmet-artist' ),
+		'filter_items_list'     => __( 'Filtrar Restaurantes', 'gourmet-artist' ),
+	);
+	$args = array(
+		'label'                 => __( 'Restaurante', 'gourmet-artist' ),
+		'description'           => __( 'Restaurantes recomendados', 'gourmet-artist' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'thumbnail' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 5,
+		'menu_icon'             => 'dashicons-store',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'page',
+	);
+	register_post_type( 'restaurantes', $args );
+
+}
+add_action( 'init', 'custom_post_type_restaurantes', 0 );
+
 ?>
