@@ -44,6 +44,56 @@
 		<div class="entry-content">
 			<?php # is_singular() ~= is_single() || is_page() || is_attachment() ?>
 			<?php if( is_singular() ): ?>
+				 <div class="taxonomy">
+				 		<div class="hora-comida">
+				 			<?php
+								// Obtiene el listado de términos de una taxonomía, de acuerdo a una publicación indicada a través de su ID
+								echo get_the_term_list(
+									 $post -> ID,									// ID de la publicación
+									 'horario_menu',							// Taxonomía registrada que contiene los términos
+									 'Hora de plato: ', 					// Lo que se desea Imprimir antes de los términos
+									 ', ', 												// Lo que se desea Imprimir como separador de los términos
+									 '' 													// Lo que se desea Imprimir después de los términos
+								);
+							?>
+				 		</div>
+						<div class="tipo-comida">
+				 			<?php
+								// Obtiene el listado de términos de una taxonomía, de acuerdo a una publicación indicada a través de su ID
+								echo get_the_term_list(
+									 $post -> ID,									// ID de la publicación
+									 'tipo_de_receta',						// Taxonomía registrada que contiene los términos
+									 'Tipo de plato: ', 					// Lo que se desea Imprimir antes de los términos
+									 ', ', 												// Lo que se desea Imprimir como separador de los términos
+									 '' 										      // Lo que se desea Imprimir después de los términos
+								);
+							?>
+				 		</div>
+						<div class="rango-precio">
+				 			<?php
+								// Obtiene el listado de términos de una taxonomía, de acuerdo a una publicación indicada a través de su ID
+								echo get_the_term_list(
+									 $post -> ID,									// ID de la publicación
+									 'precio_receta',							// Taxonomía registrada que contiene los términos
+									 'Rango precio: ',	 					// Lo que se desea Imprimir antes de los términos
+									 ', ', 												// Lo que se desea Imprimir como separador de los términos
+									 '' 										      // Lo que se desea Imprimir después de los términos
+								);
+							?>
+				 		</div>
+						<div class="estado-animo">
+				 			<?php
+								// Obtiene el listado de términos de una taxonomía, de acuerdo a una publicación indicada a través de su ID
+								echo get_the_term_list(
+									 $post -> ID,									// ID de la publicación
+									 'estado_animo',							// Taxonomía registrada que contiene los términos
+									 'Estado de Ánimo: ',					// Lo que se desea Imprimir antes de los términos
+									 ', ', 												// Lo que se desea Imprimir como separador de los términos
+									 '' 										      // Lo que se desea Imprimir después de los términos
+								);
+							?>
+				 		</div>
+				 </div>
 				 <?php the_content(); ?>
 			<?php else: ?>
 				 <?php
