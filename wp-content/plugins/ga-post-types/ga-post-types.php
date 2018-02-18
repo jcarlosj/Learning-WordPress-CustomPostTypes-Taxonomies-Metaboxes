@@ -330,4 +330,44 @@ function custom_post_type_restaurantes() {
 }
 add_action( 'init', 'custom_post_type_restaurantes', 0 );
 
+
+// Crea y registra un custom taxonomy 'Precios Recetas' usando 'GenerateWP' - https://generatewp.com
+function custom_taxonomy_precio_receta() {
+
+	$labels = array(
+		'name'                       => _x( 'Precios', 'Taxonomy General Name', 'gourmet-artist' ),
+		'singular_name'              => _x( 'Precio', 'Taxonomy Singular Name', 'gourmet-artist' ),
+		'menu_name'                  => __( 'Precio', 'gourmet-artist' ),
+		'all_items'                  => __( 'Todos los precios', 'gourmet-artist' ),
+		'parent_item'                => __( 'Precio (Padre)', 'gourmet-artist' ),
+		'parent_item_colon'          => __( 'Precio (Padre):', 'gourmet-artist' ),
+		'new_item_name'              => __( 'Agregar Nuevo Precio', 'gourmet-artist' ),
+		'add_new_item'               => __( 'Agregar Nuevo Precio', 'gourmet-artist' ),
+		'edit_item'                  => __( 'Editar Precio', 'gourmet-artist' ),
+		'update_item'                => __( 'Actualizar Precio', 'gourmet-artist' ),
+		'view_item'                  => __( 'Ver Precio', 'gourmet-artist' ),
+		'separate_items_with_commas' => __( 'Separado por comas', 'gourmet-artist' ),
+		'add_or_remove_items'        => __( 'Agregar o Eliminar Precio', 'gourmet-artist' ),
+		'choose_from_most_used'      => __( 'Elegir de los más usados', 'gourmet-artist' ),
+		'popular_items'              => __( 'Precios Populares', 'gourmet-artist' ),
+		'search_items'               => __( 'Buscar Precios', 'gourmet-artist' ),
+		'not_found'                  => __( 'Precio No Encontrado', 'gourmet-artist' ),
+		'no_terms'                   => __( 'Sin Precios', 'gourmet-artist' ),
+		'items_list'                 => __( 'Lista de Precios', 'gourmet-artist' ),
+		'items_list_navigation'      => __( 'Navegación de Precios', 'gourmet-artist' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => true,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => true,
+		'show_tagcloud'              => true,
+	);
+	register_taxonomy( 'precio_receta', array( 'recetas' ), $args );
+
+}
+add_action( 'init', 'custom_taxonomy_precio_receta', 0 );
+
 ?>
