@@ -309,3 +309,33 @@ footer {
    padding: $button-padding;
    text-transform: uppercase;
  }
+
+ /* Page: taxonomy-tipo_receta.php */
+.tax-tipo_receta {
+  #content {
+    header {
+      div {
+        &.header-taxonomy-tipo-receta {
+            background-image: url( '../images/header-taxonomia.png' );
+            background-size: cover;
+            height: 300px;
+            margin-bottom: 20px;
+            position: relative;
+
+            h1 {
+              bottom: 0;
+              left: 0;
+              position: absolute;
+
+              &.page-title {
+                  color: $white;
+                  font-size: 4.0rem;
+                  padding-left: 20px; 
+                  text-shadow: 0 0 10px black;
+              }
+            }
+        }
+      }
+    }
+  }
+}
