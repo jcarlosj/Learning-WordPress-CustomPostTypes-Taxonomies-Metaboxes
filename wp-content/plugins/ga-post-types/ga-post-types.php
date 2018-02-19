@@ -107,7 +107,7 @@ function crear_taxonomy_recetas() {
 
   // 'register_taxonomy' Crea y registra una taxonomía en WP
   register_taxonomy(
-    'tipo_de_receta',     // Nombre de la taxonomía
+    'tipo_receta',        // Nombre de la taxonomía
     array( 'recetas' ),   // Nombre del "Post Type" o los "Post Types" donde se desea aplicar esta taxonomía
     $args                 // Los argumentos de personalización del "Taxonomy"
   );

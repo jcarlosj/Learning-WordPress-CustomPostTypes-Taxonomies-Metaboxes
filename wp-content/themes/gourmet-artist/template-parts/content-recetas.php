@@ -10,8 +10,8 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'row' ); ?>>
-
 	<?php if( is_singular() ): # Condicional para la imagen ?>
+		<span class="file">content-recetas.php</span>
 		<?php the_title( '<h1 class="entry-title text-center">', '</h1>' ); ?>
 		<?php the_post_thumbnail(); ?>
 	<?php else: ?>
@@ -62,7 +62,7 @@
 								// Obtiene el listado de términos de una taxonomía, de acuerdo a una publicación indicada a través de su ID
 								echo get_the_term_list(
 									 $post -> ID,									// ID de la publicación
-									 'tipo_de_receta',						// Taxonomía registrada que contiene los términos
+									 'tipo_receta',						    // Taxonomía registrada que contiene los términos
 									 'Tipo de plato: ', 					// Lo que se desea Imprimir antes de los términos
 									 ', ', 												// Lo que se desea Imprimir como separador de los términos
 									 '' 										      // Lo que se desea Imprimir después de los términos
