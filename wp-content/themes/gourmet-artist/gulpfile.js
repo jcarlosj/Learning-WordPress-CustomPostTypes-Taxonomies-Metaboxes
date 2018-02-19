@@ -40,7 +40,7 @@ gulp .task( 'browser-sync', function() {
     browserSync .init(
         files,  /* Listado de archivos a los que se les va a hacer seguimiento */
         {
-            proxy: 'http://localhost/projects/gourmet-artist.wp/public_html/',   /* URL: Proyecto */
+            proxy: 'http://localhost/projects/gourmet-artist.wpa/public_html/',   /* URL: Proyecto */
             notify: false
         }
     );
