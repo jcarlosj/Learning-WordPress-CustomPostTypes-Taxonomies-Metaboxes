@@ -10,6 +10,7 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'row' ); ?>>
+	<span class="file">content.php</span>
 
 	<?php if( is_singular() ): # Condicional para la imagen ?>
 		<?php the_title( '<h1 class="entry-title text-center">', '</h1>' ); ?>

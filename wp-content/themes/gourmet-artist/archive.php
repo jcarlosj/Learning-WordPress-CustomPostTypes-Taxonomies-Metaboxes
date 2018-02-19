@@ -10,6 +10,7 @@
 get_header(); ?>
 
 	<div id="primary" class="content-area medium-8 columns">
+		<span class="file">archive.php</span>
 		<main id="main" class="site-main">
 
 		<?php
