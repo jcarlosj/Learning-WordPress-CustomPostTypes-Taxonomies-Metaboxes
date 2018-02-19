@@ -19,6 +19,7 @@ get_header(); ?>
 	?>
 
 	<div id="primary" class="content-area medium-8 columns">
+		<span class="file">index.php</span>
 		<main id="main" class="site-main">
 
 			<h2 class="ultimas-recetas text-center">Últimas Recetas</h2>
@@ -36,14 +37,7 @@ get_header(); ?>
 
 			/* Start the Loop */
 
-			# Consulta filtrarda para solo publicar las entradas con la categoría (Recetas)
-			$query = new WP_Query(
-				array(
-					'cat' => 3
-				)
-			);
-
-			while ( $query -> have_posts() ) : $query -> the_post();
+			while ( have_posts() ) : the_post();
 
 				/*
 				 * Include the Post-Format-specific template for the content.

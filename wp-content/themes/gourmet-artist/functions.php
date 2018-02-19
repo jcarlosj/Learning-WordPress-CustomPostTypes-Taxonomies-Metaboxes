@@ -174,6 +174,30 @@ function gourmet_artist_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'gourmet_artist_scripts' );
 
+/* Incluye 'Post Types' o 'Custom Post Types' en el Loop Principal de Wordpress
+ * Con ella reemplazamos el usar un WP_Query para poder mostrar uno o más tipos de Posts al tiempo */
+function mostrar_post_type( $query ) {
+	# Validamos que NO sea la vista de ADMIN usando negando la función is_admin() y que el Query que recibe sea el Query Principal, usamos la función is_main_query() para validarlo
+	if( !is_admin() && $query -> is_main_query() ) {
+		# Valida que sea el homepage (página principal)
+		if( is_home() ) {
+			# Agrega los post type que deseamos al query
+			$query -> set(
+				'post_type',						// Indica a WP que vamos a agregar 'Post Types' al Query
+				array(
+					'post',								// Nombre del 'Post Type' por defecto de WordPress
+					'recetas'							// Nombre del 'Custom Post Type' recetas
+				)
+			);
+		}
+	}
+}
+// Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
+add_action(
+	'pre_get_posts', 			// Lugar donde queremos que se ejecute la funcionalidad. En este caso antes de obtener los posts de la página del sitio
+	'mostrar_post_type' 	// La funcionalidad o código a desplegar
+);
+
 /**
  * Implement the Custom Header feature.
  */
