@@ -8,7 +8,7 @@
  */
 
 get_header(); ?>
-taxonomy.php
+<!-- taxonomy.php -->
 	<div id="primary" class="content-area medium-8 columns">
 		<main id="main" class="site-main">
 
