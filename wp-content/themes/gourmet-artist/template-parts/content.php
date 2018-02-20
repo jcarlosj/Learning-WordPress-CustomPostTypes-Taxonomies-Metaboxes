@@ -47,6 +47,39 @@
 			<?php if( is_singular() ): ?>
 				 <?php the_content(); ?>
 			<?php else: ?>
+
+				<?php # Sólo mostrará las taxonomías (horario_menu, tipo_receta) si el nombre del 'Post Type' es 'recetas'. Así evitamos que imprima la estructura vacia en los Post que no tienen taxonomías ?>
+				<?php if( 'recetas' == get_post_type() ): ?>
+
+						<div class="taxonomy">
+							 <div class="hora-comida">
+								 <?php
+									 // Obtiene el listado de términos de una taxonomía, de acuerdo a una publicación indicada a través de su ID
+									 echo get_the_term_list(
+											$post -> ID,									// ID de la publicación
+											'horario_menu',							// Taxonomía registrada que contiene los términos
+											'Hora de plato: ', 					// Lo que se desea Imprimir antes de los términos
+											', ', 												// Lo que se desea Imprimir como separador de los términos
+											'' 													// Lo que se desea Imprimir después de los términos
+									 );
+								 ?>
+							 </div>
+							 <div class="tipo-comida">
+								 <?php
+									 // Obtiene el listado de términos de una taxonomía, de acuerdo a una publicación indicada a través de su ID
+									 echo get_the_term_list(
+											$post -> ID,									// ID de la publicación
+											'tipo_receta',						    // Taxonomía registrada que contiene los términos
+											'Tipo de plato: ', 					// Lo que se desea Imprimir antes de los términos
+											', ', 												// Lo que se desea Imprimir como separador de los términos
+											'' 										      // Lo que se desea Imprimir después de los términos
+									 );
+								 ?>
+							 </div>
+						</div>		<!-- .taxonomy -->
+
+				<?php endif; # if( 'recetas' == get_post_type() ) ?>
+
 				 <?php
 					 # Reduce la impresión del contenido de la publicación
 					 $abbreviated_content = substr( get_the_excerpt(), 0, 200 );
