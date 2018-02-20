@@ -18,6 +18,31 @@ get_header(); ?>
 		get_template_part( 'template-parts/slider' );
 	?>
 
+	<!-- Menú Terminos -->
+	<?php
+		# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
+		$terminos = get_terms(
+			array(
+				'taxonomy' => 'tipo_receta'
+			)
+		);
+	?>
+
+	<ul class="menu">
+		<?php
+			# Recorremos cada uno de los términos
+			foreach ($terminos as $key => $termino ) {
+				# Imprime cada término dentro de un elemento li
+				echo '<li>
+								<a href="#' .$termino -> slug. '">'
+									.$termino -> name .
+								'</a>
+							</li>';
+			}
+		?>
+	</ul>
+	<!-- FIN - Menú Terminos -->
+
 	<div id="primary" class="content-area medium-8 columns">
 		<span class="file">index.php</span>
 		<main id="main" class="site-main">
