@@ -24,6 +24,8 @@
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'gourmet-artist' ); ?></a>
 
+	<?php get_search_form( $echo = true ); # Agrega el buscador nativo de WordPress ?>
+
 	<header id="masthead" class="site-header row">
 		<?php if( get_header_image_tag() ) : ?>
 

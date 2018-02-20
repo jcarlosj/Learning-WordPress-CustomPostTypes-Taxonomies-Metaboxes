@@ -330,7 +330,7 @@ footer {
               &.page-title {
                   color: $white;
                   font-size: 4.0rem;
-                  padding-left: 20px; 
+                  padding-left: 20px;
                   text-shadow: 0 0 10px black;
               }
             }
@@ -339,3 +339,35 @@ footer {
     }
   }
 }
+
+ /* Page: content-search.php */
+ .search-results {
+   #content {
+     article {
+       header {
+         &.entry-header {
+           h2 {
+             &.entry-title {
+                font-size: 2.1rem;
+             }
+           }
+         }
+       }
+
+       div {
+         &.entry-summary {
+           margin: 1.0em 0 0;
+           
+           .taxonomy {
+              font-size: 0.9rem;
+           }
+
+           p {
+             margin-top: 16px;
+           }
+         }
+       }
+
+     }
+   }
+ }

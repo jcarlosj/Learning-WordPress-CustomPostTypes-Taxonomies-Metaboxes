@@ -9,16 +9,17 @@
 
 get_header(); ?>
 
-	<section id="primary" class="content-area">
+	<section id="primary" class="content-area large-8 columns">
+		<span class="file">search.php</span>
 		<main id="main" class="site-main">
 
 		<?php
 		if ( have_posts() ) : ?>
 
 			<header class="page-header">
-				<h1 class="page-title"><?php
+				<h1 class="page-title text-center"><?php
 					/* translators: %s: search query. */
-					printf( esc_html__( 'Search Results for: %s', 'gourmet-artist' ), '<span>' . get_search_query() . '</span>' );
+					printf( esc_html__( 'Resultados encontrados para: %s', 'gourmet-artist' ), '<span>' . get_search_query() . '</span>' );
 				?></h1>
 			</header><!-- .page-header -->
 
