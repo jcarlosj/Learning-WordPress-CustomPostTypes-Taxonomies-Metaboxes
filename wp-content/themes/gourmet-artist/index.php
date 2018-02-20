@@ -18,6 +18,7 @@ get_header(); ?>
 		get_template_part( 'template-parts/slider' );
 	?>
 
+	<!-- TERMINOS -->
 	<!-- Menú Terminos -->
 	<?php
 		# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
@@ -40,8 +41,38 @@ get_header(); ?>
 							</li>';
 			}
 		?>
-	</ul>
-	<!-- FIN - Menú Terminos -->
+	</ul>		<!-- FIN - Menú Terminos -->
+
+	<!-- Muestra y Filtra Terminos -->
+	<div class="filtra-terminos">
+		<?php
+		/* Personalizamos la consulta */
+			$args = array(
+				'post_type'      => 'recetas',   # Elegimos el tipo de entradas que deseamos publicar el CPT 'recetas'
+				'tax_query'      => array(			 # Muestra publicaciones asociada con determinada taxonomía
+					array(
+						'taxonomy' => 'tipo_receta',			# Taxonomía que se va a publicar
+						'field'    => 'slug',							# Campo de la taxonomía a publicar (valores posibles: 'term_id' (valor por defecto), 'name', 'slug', 'term_taxonomy_id')
+						'terms'	   => 'comida-italiana'	  # Término específico de la taxonomía ( int/string/array )
+					)
+				),
+				'orderby'        => 'rand',      # Ordenado: Aleatorio
+				'posts_per_page' => 4            # Cantidad de publicaciones por página
+			);
+
+			/* Realiza la consulta WP_Query */
+			$tipo_comida = new WP_Query( $args );
+			# Imprime las entradas requeridas
+			while( $tipo_comida -> have_posts() ):
+				$tipo_comida -> the_post();
+
+				echo '<h4>' .get_the_title(). '</h4>';
+
+			endwhile; wp_reset_postdata();
+		?>
+	</div>	<!-- Muestra y Filtra Terminos -->
+
+	<!-- FIN - TERMINOS -->
 
 	<div id="primary" class="content-area medium-8 columns">
 		<span class="file">index.php</span>
