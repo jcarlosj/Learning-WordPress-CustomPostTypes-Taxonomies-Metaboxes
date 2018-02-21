@@ -29,24 +29,31 @@ get_header(); ?>
 		);
 	?>
 
-	<ul class="menu">
-		<?php
-			# Recorremos cada uno de los términos
-			foreach ($terminos as $key => $termino ) {
-				# Imprime cada término dentro de un elemento li
-				echo '<li>
-								<a href="#' .$termino -> slug. '">'
-									.$termino -> name .
-								'</a>
-							</li>';
-			}
-		?>
-	</ul>		<!-- FIN - Menú Terminos -->
+	<div class="filtra-terminos row">
+		<ul class="menu">
+			<?php
+				# Recorremos cada uno de los términos
+				foreach ($terminos as $key => $termino ) :
+					# Imprime cada término dentro de un elemento li
+					echo '<li>
+									<a href="#' .$termino -> slug. '">'
+										.$termino -> name .
+									'</a>
+								</li>';
+				endforeach;
+			?>
+		</ul>		<!-- .menu -->
 
-	<!-- Muestra y Filtra Terminos -->
-	<div class="filtra-terminos">
-		<?php mostrar_post_type_recetas_por_tipo_receta( 'comida-italiana' ); ?>
-	</div>	<!-- Muestra y Filtra Terminos -->
+		<div class="recetas">
+			<?php
+				# Recorremos cada uno de los términos
+				foreach ($terminos as $key => $termino ) :
+					mostrar_post_type_recetas_por_tipo_receta( $termino -> slug );
+				endforeach;
+			?>
+		</div>	<!-- .recetas -->
+
+	</div>	<!-- .filtra-terminos -->
 
 	<!-- FIN - TERMINOS -->
 

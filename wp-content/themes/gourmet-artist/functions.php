@@ -223,6 +223,9 @@ function mostrar_post_type_recetas_por_tipo_receta( $termino ) {
 
 		/* Realiza la consulta WP_Query */
 		$tipo_comida = new WP_Query( $args );
+
+		echo '<div id=' .$termino. ' class="row">';
+
 		# Imprime las entradas requeridas
 		while( $tipo_comida -> have_posts() ):
 			$tipo_comida -> the_post();
@@ -240,7 +243,11 @@ function mostrar_post_type_recetas_por_tipo_receta( $termino ) {
 							</div>
 						</div>';
 
-		endwhile; wp_reset_postdata();
+		endwhile;
+		wp_reset_postdata();
+
+		echo '</div>';
+
 }
 
 /**
