@@ -30,6 +30,9 @@ get_header(); ?>
 	?>
 
 	<div id="filtra-terminos" class"row">
+
+		<h1 class="tipo-receta text-center">Tipo de Receta</h1>
+
 		<div class="menu-center">
 			<ul class="menu vertical">
 				<?php

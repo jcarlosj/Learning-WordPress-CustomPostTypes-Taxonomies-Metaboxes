@@ -155,8 +155,14 @@ $background-color-recetas: #F4F4F4;
 
   #filtra-terminos {
 
+    h1 {
+      &.tipo-receta {
+        font-size: 2.5rem;
+      }
+    }
+
     h2 {
-      font-size: 16px;
+      font-size: 13px;
       margin-top: 20px;
       text-transform: uppercase;
     }
@@ -165,11 +171,21 @@ $background-color-recetas: #F4F4F4;
       text-align: center;
 
       ul {
+        background-color: get-color( primary );
+
         &.menu {
-          background-color: get-color( primary );
           display: inline-block;
           margin-bottom: 20px;
           width: 100%;
+
+         .active {
+            > a {
+              background-color: transparent;    // Quita Color de Fondo al Enlace
+            }
+          }
+        }
+
+        li {
 
           a {
             color: $white;
@@ -178,14 +194,17 @@ $background-color-recetas: #F4F4F4;
             padding: 15px 20px;
             text-transform: uppercase;
           }
-        }
-        > li {
-          display: block;
 
           &.active {
-            background-color: $menu-tipo-receta-active;
+            background-color: darken( get-color( primary ), 15% );
           }
+
         }
+
+        > li {
+          display: block;
+        }
+
       }
     }
 
@@ -199,6 +218,9 @@ $background-color-recetas: #F4F4F4;
 
   @media screen and ( min-width: $desktop-menu-tipo-receta ) {
     #filtra-terminos {
+      h2 {
+        font-size: 16px;
+      }
       .menu-center {
         ul {
           &.menu {
