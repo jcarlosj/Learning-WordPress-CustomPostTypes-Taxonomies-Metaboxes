@@ -204,6 +204,64 @@ add_action(
 	'mostrar_post_type' 	// La funcionalidad o código a desplegar
 );
 
+/* Crea consulta de entradas (Post) 'recetas' para usar Ajax en WordPress */
+function sugerencia_recetas_horario() {
+	/* Personalizamos la consulta */
+		$args = array(
+			'post_type'      => 'recetas',   # Elegimos el tipo de entradas que deseamos publicar el CPT 'recetas'
+			'tax_query'      => array(			 # Muestra publicaciones asociada con determinada taxonomía
+				array(
+					'taxonomy' => 'horario_menu',			# Taxonomía que se va a publicar
+					'field'    => 'slug',							# Campo de la taxonomía a publicar (valores posibles: 'term_id' (valor por defecto), 'name', 'slug', 'term_taxonomy_id')
+					'terms'	   => 'almuerzo'     	      # Término específico de la taxonomía ( int/string/array )
+				)
+			),
+			'orderby'        => 'rand',      # Ordenado: Aleatorio
+			'posts_per_page' => 3            # Cantidad de publicaciones por página
+		);
+
+		/* Obtener todas las entradas (o Post) 'get_posts()'
+		   Formatea los datos y permite hacer uso de variables globales de WP
+			 Algunas de ellas son: $id, $authordata, $actualday, $currentmonth, $page, $pages, $multipage, $more, $numpages */
+		$posts = get_posts( $args );				// Retorna un Objeto con todos los CPT 'recetas' (Necesario para cuando se trabaja con AJAX)
+
+		/* Asignamos cada Entrada a un campo en un Array */
+		$listadoPost = array();
+
+		/* Recorre y asigna cada uno de los valores de los 'template_tags' del post */
+		foreach ( $posts as $key => $post ) {
+			$listadoPost = array(
+				'id'     => $post -> ID,
+				'titulo' => $post -> post_title,
+				'imagen' => get_the_post_thumbnail( $post -> ID, 'horario-receta-image' ),
+				'enlace' => get_the_permalink( $post -> ID )
+
+			);
+		}
+
+		/* Convertir el 'Array' a una cadena JSON */
+		header( 'Content-type: application/json' );			# Envia encabezado http json al navegador para informarle el tipo de datos que espera
+		echo json_encode( $listadoPost );								# Convierte el 'Array' a JSON
+
+		die;			// Es necesario usarla, para resetear como se hace con 'wp_reset_postdata()' un 'WP_Query'
+		          // Esta es la forma como se hace el RESET, ya que la función 'get_posts' no modifica el Query como si lo hace 'WP_Query'
+}
+// Doble Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
+add_action(
+	'wp_ajax_nopriv_sugerencia_recetas_horario', 	// Lugar donde queremos que se ejecute la funcionalidad. En este caso antes de obtener los posts de la página del sitio
+	'sugerencia_recetas_horario' 									// La funcionalidad o código a desplegar
+);
+add_action(
+	'wp_ajax_sugerencia_recetas_horario', 	// Lugar donde queremos que se ejecute la funcionalidad. En este caso antes de obtener los posts de la página del sitio
+	'sugerencia_recetas_horario' 					  // La funcionalidad o código a desplegar
+);
+
+/* NOTA:
+   wp_ajax_<nombre-funcion>: 			  El usuario tiene que haber iniciado sesión
+   wp_ajax_nopriv_<nombre-funcion>: El usuario NO tiene que haber iniciado sesión
+ */
+
+
 /* FUNCIONALIDADES ADICIONALES */
 # Muestra Post 'recetas' filtrado por la taxonomía 'tipo_receta' de acuerdo al término seleccionado
 function mostrar_post_type_recetas_por_tipo_receta( $termino ) {
