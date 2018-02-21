@@ -30,19 +30,21 @@ get_header(); ?>
 	?>
 
 	<div id="filtra-terminos" class"row">
-		<ul class="menu">
-			<?php
-				# Recorremos cada uno de los términos
-				foreach ($terminos as $key => $termino ) :
-					# Imprime cada término dentro de un elemento li
-					echo '<li>
-									<a href="#' .$termino -> slug. '">'
-										.$termino -> name .
-									'</a>
-								</li>';
-				endforeach;
-			?>
-		</ul>		<!-- .menu -->
+		<div class="menu-center">
+			<ul class="menu vertical">
+				<?php
+					# Recorremos cada uno de los términos
+					foreach ($terminos as $key => $termino ) :
+						# Imprime cada término dentro de un elemento li
+						echo '<li>
+										<a href="#' .$termino -> slug. '">'
+											.$termino -> name .
+										'</a>
+									</li>';
+					endforeach;
+				?>
+			</ul>		<!-- .menu -->
+		</div>
 
 		<div id="recetas">
 			<?php

@@ -146,8 +146,71 @@ header {
 /* Page: index.php
  * Últimas Recetas
  */
+$desktop-menu-tipo-receta: 640px;
+$menu-tipo-receta-active: #5C8721;
+$background-color-recetas: #F4F4F4;
+
 #content {
   margin-top: rem-calc( 30 );
+
+  #filtra-terminos {
+
+    h2 {
+      font-size: 16px;
+      margin-top: 20px;
+      text-transform: uppercase;
+    }
+
+    .menu-center {
+      text-align: center;
+
+      ul {
+        &.menu {
+          background-color: get-color( primary );
+          display: inline-block;
+          margin-bottom: 20px;
+          width: 100%;
+
+          a {
+            color: $white;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 15px 20px;
+            text-transform: uppercase;
+          }
+        }
+        > li {
+          display: block;
+
+          &.active {
+            background-color: $menu-tipo-receta-active;
+          }
+        }
+      }
+    }
+
+    #recetas {
+      background-color: $background-color-recetas;
+      margin: 20px 0;
+      padding: 20px;
+    }
+
+  }
+
+  @media screen and ( min-width: $desktop-menu-tipo-receta ) {
+    #filtra-terminos {
+      .menu-center {
+        ul {
+          &.menu {
+            width: auto;
+          }
+          > li {
+            display: table-cell;
+          }
+        }
+      }
+    }
+  }
 
   div {
     &.entry-meta {
@@ -357,7 +420,7 @@ footer {
        div {
          &.entry-summary {
            margin: 1.0em 0 0;
-           
+
            .taxonomy {
               font-size: 0.9rem;
            }
