@@ -29,7 +29,7 @@ get_header(); ?>
 		);
 	?>
 
-	<div class="filtra-terminos row">
+	<div id="filtra-terminos" class"row">
 		<ul class="menu">
 			<?php
 				# Recorremos cada uno de los términos
@@ -44,7 +44,7 @@ get_header(); ?>
 			?>
 		</ul>		<!-- .menu -->
 
-		<div class="recetas">
+		<div id="recetas">
 			<?php
 				# Recorremos cada uno de los términos
 				foreach ($terminos as $key => $termino ) :
