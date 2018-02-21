@@ -45,31 +45,7 @@ get_header(); ?>
 
 	<!-- Muestra y Filtra Terminos -->
 	<div class="filtra-terminos">
-		<?php
-		/* Personalizamos la consulta */
-			$args = array(
-				'post_type'      => 'recetas',   # Elegimos el tipo de entradas que deseamos publicar el CPT 'recetas'
-				'tax_query'      => array(			 # Muestra publicaciones asociada con determinada taxonomía
-					array(
-						'taxonomy' => 'tipo_receta',			# Taxonomía que se va a publicar
-						'field'    => 'slug',							# Campo de la taxonomía a publicar (valores posibles: 'term_id' (valor por defecto), 'name', 'slug', 'term_taxonomy_id')
-						'terms'	   => 'comida-italiana'	  # Término específico de la taxonomía ( int/string/array )
-					)
-				),
-				'orderby'        => 'rand',      # Ordenado: Aleatorio
-				'posts_per_page' => 4            # Cantidad de publicaciones por página
-			);
-
-			/* Realiza la consulta WP_Query */
-			$tipo_comida = new WP_Query( $args );
-			# Imprime las entradas requeridas
-			while( $tipo_comida -> have_posts() ):
-				$tipo_comida -> the_post();
-
-				echo '<h4>' .get_the_title(). '</h4>';
-
-			endwhile; wp_reset_postdata();
-		?>
+		<?php mostrar_post_type_recetas_por_tipo_receta( 'comida-italiana' ); ?>
 	</div>	<!-- Muestra y Filtra Terminos -->
 
 	<!-- FIN - TERMINOS -->

@@ -29,6 +29,12 @@ if ( ! function_exists( 'gourmet_artist_setup' ) ) :
 			370, 						# Ancho de la imagen en pixeles
 			true 						# TRUE -> Si deseamos que haga un cropping de la imagen
 		);
+		add_image_size(
+			'tipo-receta-image', # Nombre del tamaño de imagen que hemos registrado
+			560,  				       # Alto de la imagen en pixeles
+			800, 						     # Ancho de la imagen en pixeles
+			true 						     # TRUE -> Si deseamos que haga un cropping de la imagen
+		);
 		/*
 		 * Make theme available for translation.
 		 * Translations can be filed in the /languages/ directory.
@@ -197,6 +203,45 @@ add_action(
 	'pre_get_posts', 			// Lugar donde queremos que se ejecute la funcionalidad. En este caso antes de obtener los posts de la página del sitio
 	'mostrar_post_type' 	// La funcionalidad o código a desplegar
 );
+
+/* FUNCIONALIDADES ADICIONALES */
+# Muestra Post 'recetas' filtrado por la taxonomía 'tipo_receta' de acuerdo al término seleccionado
+function mostrar_post_type_recetas_por_tipo_receta( $termino ) {
+	/* Personalizamos la consulta */
+		$args = array(
+			'post_type'      => 'recetas',   # Elegimos el tipo de entradas que deseamos publicar el CPT 'recetas'
+			'tax_query'      => array(			 # Muestra publicaciones asociada con determinada taxonomía
+				array(
+					'taxonomy' => 'tipo_receta',			# Taxonomía que se va a publicar
+					'field'    => 'slug',							# Campo de la taxonomía a publicar (valores posibles: 'term_id' (valor por defecto), 'name', 'slug', 'term_taxonomy_id')
+					'terms'	   => $termino     	      # Término específico de la taxonomía ( int/string/array )
+				)
+			),
+			'orderby'        => 'rand',      # Ordenado: Aleatorio
+			'posts_per_page' => 4            # Cantidad de publicaciones por página
+		);
+
+		/* Realiza la consulta WP_Query */
+		$tipo_comida = new WP_Query( $args );
+		# Imprime las entradas requeridas
+		while( $tipo_comida -> have_posts() ):
+			$tipo_comida -> the_post();
+
+			echo '
+				<div class="small-6 medium-3 columns">
+					<div class="receta">
+					  <a href="' .get_the_permalink(). '">';
+
+			the_post_thumbnail( 'tipo-receta-image' );
+
+			echo '
+			            <h2 class="text-center">' .get_the_title(). '</h2>
+							  </a>
+							</div>
+						</div>';
+
+		endwhile; wp_reset_postdata();
+}
 
 /**
  * Implement the Custom Header feature.
