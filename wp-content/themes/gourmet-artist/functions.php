@@ -35,6 +35,12 @@ if ( ! function_exists( 'gourmet_artist_setup' ) ) :
 			800, 						     # Ancho de la imagen en pixeles
 			true 						     # TRUE -> Si deseamos que haga un cropping de la imagen
 		);
+		add_image_size(
+			'horario-receta-image', # Nombre del tamaño de imagen que hemos registrado
+			385,  				          # Alto de la imagen en pixeles
+			491, 						        # Ancho de la imagen en pixeles
+			true 						        # TRUE -> Si deseamos que haga un cropping de la imagen
+		);
 		/*
 		 * Make theme available for translation.
 		 * Translations can be filed in the /languages/ directory.
@@ -246,11 +252,11 @@ function sugerencia_recetas_horario() {
 			setup_postdata( $post );
 
 			$listadoPost[] = array(
-				'id'     => $post -> ID,
-				'titulo' => $post -> post_title,
-				'imagen' => get_the_post_thumbnail( $post -> ID, 'horario-receta-image' ),
-				'enlace' => get_the_permalink( $post -> ID )
-
+				'id'     => $post -> ID,																											// ID del Post
+				'titulo' => $post -> post_title,																							// Título del Post
+				'imagen' => get_the_post_thumbnail( $post -> ID, 'horario-receta-image' ),		// Imagen del Post
+				'enlace' => get_the_permalink( $post -> ID ),																	// Enlace del Post
+				'objecto' => $post																														// Todos los valores del objeto
 			);
 		}
 

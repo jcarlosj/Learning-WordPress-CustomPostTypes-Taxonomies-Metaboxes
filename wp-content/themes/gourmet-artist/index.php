@@ -18,8 +18,14 @@ get_header(); ?>
 		get_template_part( 'template-parts/slider' );
 	?>
 
-	<!-- TERMINOS -->
-	<!-- Menú Terminos -->
+	<!-- SUGERENCIA POR TAXONOMÍAS Y TERMINOS -->
+	<!-- Menú Taxonomías y Terminos (Horario Receta) -->
+	<div class="horario-comida">
+		<h2 id="hora" class="text-center">Recomendado para: </h2>
+		<div id="sugerencia-recetas-horario"></div>
+	</div>
+
+	<!-- Menú Taxonomías y Terminos (Tipo Receta) -->
 	<?php
 		# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
 		$terminos = get_terms(
