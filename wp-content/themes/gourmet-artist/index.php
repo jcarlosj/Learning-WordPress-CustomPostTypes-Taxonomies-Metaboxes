@@ -20,7 +20,7 @@ get_header(); ?>
 
 	<!-- SUGERENCIA POR TAXONOMÍAS Y TERMINOS -->
 	<!-- Menú Taxonomías y Terminos (Horario Receta) -->
-	<div id="horario-comida">
+	<div id="horario-comida" class="clear">
 		<h2 class="text-center">Recomendado para: <span id="hora"></span></h2>
 		<div id="sugerencia-recetas-horario"></div>
 	</div>

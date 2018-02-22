@@ -3,6 +3,8 @@
 $page-title: 'Pinyon Script', cursive;
 $page-description: 'Yellowtail', cursive;
 
+
+
 a {
   &:visited {
     color: $primary-color;
@@ -152,6 +154,33 @@ $background-color-recetas: #F4F4F4;
 
 #content {
   margin-top: rem-calc( 30 );
+
+  #horario-comida {
+    padding: 10px 0 30px 0;
+
+    #hora {
+      font-style: italic;
+      color: $primary-color;
+    }
+    #sugerencia-recetas-horario {
+      a {
+
+        .contenido {
+          background-color: #78A837;
+
+          h3 {
+            color: white;
+            display: block;
+            font-size: 16px;
+            padding: 10px;
+            text-align: center;
+          }
+
+        }
+
+      }
+    }
+  }
 
   #filtra-terminos {
 

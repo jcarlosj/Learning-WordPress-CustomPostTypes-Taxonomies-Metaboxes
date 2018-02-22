@@ -36,12 +36,14 @@ $( document ) .ready( function() {
       $.each( response, function( index, object ) {
         var template = `
           <div class="medium-4 small-12 columns">
-            ${ object .imagen }
-            <div class="contenido">
-              <h3>
-                <a href="${ object .enlace }">${ object .titulo }</a>
-              </h3>
-            </div>
+            <a href="${ object .enlace }">
+              ${ object .imagen }
+              <div class="contenido">
+                <h3>
+                  ${ object .titulo }
+                </h3>
+              </div>
+            </a>
           </div>
         `;
 
