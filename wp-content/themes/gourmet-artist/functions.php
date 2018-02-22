@@ -172,6 +172,19 @@ function gourmet_artist_scripts() {
 		'app-js',
 		get_template_directory_uri(). '/js/app.js'
  	);
+	/* Implementa archivo JavaScript para el Manejo de Datos con AJAX en WordPress (Horario Comida) en 'index.php' */
+	wp_enqueue_script(
+		'xhr-horario-comida-js',
+		get_template_directory_uri(). '/js/horario_comida.js'
+ 	);
+	/* Localiza una secuencia de comandos (Funciona solo si el script ya se ha agregado) */
+	wp_localize_script(
+		'xhr-horario-comida-js',			// Nombre del Manejador de scripts que adjuntará WP a los datos
+		'admin_url',									// Nombre para el Objeto JavaScript
+		array(												// Datos que se pasarán al Objeto 'admin_url'
+			'url' => admin_url( 'admin-ajax.php' )		// admin_url() es una función de WordPress que recupera el URL del área de adminitración para el sitio actual
+		)
+	);
 	wp_enqueue_script( 'gourmet-artist-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -213,16 +226,14 @@ function sugerencia_recetas_horario() {
 				array(
 					'taxonomy' => 'horario_menu',			# Taxonomía que se va a publicar
 					'field'    => 'slug',							# Campo de la taxonomía a publicar (valores posibles: 'term_id' (valor por defecto), 'name', 'slug', 'term_taxonomy_id')
-					'terms'	   => 'almuerzo'     	      # Término específico de la taxonomía ( int/string/array )
+					'terms'	   => 'almuerzo'     	    # Término específico de la taxonomía ( int/string/array )
 				)
 			),
 			'orderby'        => 'rand',      # Ordenado: Aleatorio
 			'posts_per_page' => 3            # Cantidad de publicaciones por página
 		);
 
-		/* Obtener todas las entradas (o Post) 'get_posts()'
-		   Formatea los datos y permite hacer uso de variables globales de WP
-			 Algunas de ellas son: $id, $authordata, $actualday, $currentmonth, $page, $pages, $multipage, $more, $numpages */
+		/* Obtener todas las entradas (o Post) 'get_posts()' sin modificar el Query, solo consulta */
 		$posts = get_posts( $args );				// Retorna un Objeto con todos los CPT 'recetas' (Necesario para cuando se trabaja con AJAX)
 
 		/* Asignamos cada Entrada a un campo en un Array */
@@ -230,7 +241,11 @@ function sugerencia_recetas_horario() {
 
 		/* Recorre y asigna cada uno de los valores de los 'template_tags' del post */
 		foreach ( $posts as $key => $post ) {
-			$listadoPost = array(
+			/* Formatea los datos y permite hacer uso de variables globales de WP
+				 Algunas de ellas son: $id, $authordata, $actualday, $currentmonth, $page, $pages, $multipage, $more, $numpages */
+			setup_postdata( $post );
+
+			$listadoPost[] = array(
 				'id'     => $post -> ID,
 				'titulo' => $post -> post_title,
 				'imagen' => get_the_post_thumbnail( $post -> ID, 'horario-receta-image' ),
