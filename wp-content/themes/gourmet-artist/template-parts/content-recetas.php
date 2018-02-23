@@ -94,6 +94,34 @@
 							?>
 				 		</div>
 				 </div>
+
+				 <div class="informacion-extra">
+				 		<?php
+							$calorias = get_post_meta( get_the_ID(), 'input_metabox', true );
+							if( $calorias ) :
+						?>
+							<div class="calorias">
+								<p>Calorías: <?php echo $calorias; ?></p>
+							</div>
+						<?php endif; # .calorias ?>
+						<?php
+							$calificacion = get_post_meta( get_the_ID(), 'dropdown_metabox', true );
+							if( $calificacion ) :
+						?>
+							<div class="calificacion">
+								<p>Calificación: <?php echo $calificacion; ?></p>
+							</div>
+						<?php endif; # .calificacion ?>
+						<?php
+							$subtitulo = get_post_meta( get_the_ID(), 'textarea_metabox', true );
+							if( $subtitulo ) :
+						?>
+							<div class="subtitulo">
+								<blockquote><?php echo $subtitulo; ?></blockquote>
+							</div>
+						<?php endif; # .subtitulo ?>
+				 </div>
+
 				 <?php the_content(); ?>
 			<?php else: ?>
 				 <?php
