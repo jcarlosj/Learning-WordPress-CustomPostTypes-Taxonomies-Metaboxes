@@ -326,6 +326,22 @@ $background-color-recetas: #F4F4F4;
               display: inline-table;
             }
          }
+
+         &.informacion-extra {
+
+           .calorias,
+           .calificacion {
+             p {
+               padding: 0;
+               margin: 0;
+             }
+
+           }
+           .subtitulo {
+             padding-top: 10px;
+             font-style: italic;
+           }
+         }
        }
 
      }
