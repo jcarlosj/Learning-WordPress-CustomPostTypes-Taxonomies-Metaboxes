@@ -31,7 +31,35 @@ add_action(
 
 // Crea la zona donde se despliegan los campos para el Metabox 'ga-metaboxes'
 function zona_ga_metaboxes( $post ) {
-  echo 'Hola Mundo! Soy un metabox sin campos :) ';
+  # wp_nonce_field(): Valida que el contenido de la solicitud del formulario proviene de la ubicación en el sitio actual y no en otro.
+  wp_nonce_field(
+    basename( __FILE__ ),
+    'meta-box-nonce'        // Nombre del Nonce o del campo del formulario oculto que se creará. Vaor predeterminado: _wpnonce
+  );
+
+  $opciones_calificacion = array( 1, 2, 3, 4, 5 );
+
+  echo '
+    <div>
+      <label for="input-metabox">Calorías: </label>
+      <input name="input-metabox" type="text" />
+      </br>
+      <label for="textarea-metabox">Subtítulo de la receta: </label>
+      <textarea name="textarea-metabox"></textarea>
+      </br>
+      <label for="dropdown-metabox">Calificación</label>
+      <select name="dropdown-metabox">
+  ';
+
+        foreach ( $opciones_calificacion as $key => $opcion ) {
+            echo '<option value="' .$opcion. '">' .$opcion. '</option>';
+        }
+
+  echo '
+      </select>
+    </div>
+  ';
+
 }
 
 ?>
