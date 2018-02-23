@@ -34,44 +34,44 @@
    # Agrega campo Ciudad
    $metabox_eventos -> add_field(
      array(
-       'id'      => $prefix. 'ciudad',
-       'type'    => 'text',
-       'name'    => __( 'Ciudad:', 'cmb2' ),
-       'desc'    => __( 'Ciudad en la que se realizará el evento', 'cmb2' ),
-       'default' => ''
+       'id'      => $prefix. 'ciudad',                                          # Nombre Identificador del Campo 'ga_campos_eventos_ciudad'
+       'type'    => 'text',                                                     # Tipo de campo CMB2: input de tipo text
+       'name'    => __( 'Ciudad:', 'cmb2' ),                                    # Label del campo
+       'desc'    => __( 'Ciudad en la que se realizará el evento', 'cmb2' ),    # Descripción para el campo
+       'default' => ''                                                          # Valor por defecto del campo
      )
    );
 
    # Agrega campo Lugares disponibles
    $metabox_eventos -> add_field(
      array(
-       'id'      => $prefix. 'lugares',
-       'type'    => 'text',
-       'name'    => __( 'Lugares disponibles:', 'cmb2' ),
-       'desc'    => __( 'Lugares disponibles para el evento', 'cmb2' ),
-       'default' => ''
+       'id'      => $prefix. 'lugares',                                   # Nombre Identificador del Campo 'ga_campos_eventos_lugares'
+       'type'    => 'text',                                               # Tipo de campo CMB2: input de tipo text
+       'name'    => __( 'Lugares disponibles:', 'cmb2' ),                 # Label del campo
+       'desc'    => __( 'Lugares disponibles para el evento', 'cmb2' ),   # Descripción para el campo
+       'default' => ''                                                    # Valor por defecto del campo
      )
    );
 
    # Agrega campo Fecha del Evento
    $metabox_eventos -> add_field(
      array(
-       'id'      => $prefix. 'fecha',
-       'type'    => 'text_datetime_timestamp',
-       'name'    => __( 'Fecha del evento:', 'cmb2' ),
-       'desc'    => __( 'Fecha del evento en la que se realizará el evento', 'cmb2' ),
-       'default' => ''
+       'id'      => $prefix. 'fecha',                                                     # Nombre Identificador del Campo 'ga_campos_eventos_fecha'
+       'type'    => 'text_datetime_timestamp',                                            # Tipo de campo CMB2: 2 input para Fecha y hora
+       'name'    => __( 'Fecha del evento:', 'cmb2' ),                                    # Label del campo
+       'desc'    => __( 'Fecha del evento en la que se realizará el evento', 'cmb2' ),    # Descripción para el campo
+       'default' => ''                                                                    # Valor por defecto del campo
      )
    );
 
    # Agrega campo Temas que se van atratar en el evento
    $metabox_eventos -> add_field(
      array(
-       'id'      => $prefix. 'temas',
-       'type'    => 'text',
-       'name'    => __( 'Temas:', 'cmb2' ),
-       'desc'    => __( 'Temas que se van a tratar en el evento', 'cmb2' ),
-       'default' => '',
+       'id'      => $prefix. 'temas',                                           # Nombre Identificador del Campo 'ga_campos_eventos_temas'
+       'type'    => 'text',                                                     # Tipo de campo CMB2: 2 input de tipo text
+       'name'    => __( 'Temas:', 'cmb2' ),                                     # Label del campo
+       'desc'    => __( 'Temas que se van a tratar en el evento', 'cmb2' ),     # Descripción para el campo
+       'default' => '',                                                         # Valor por defecto del campo
        'repeatable' => true
      )
    );
@@ -82,5 +82,43 @@
    'cmb2_admin_init',                   // Lugar donde queremos que se ejecute la funcionalidad dentro del Plugin CMB2
    'registrar_campos_eventos'           // La funcionalidad o código a desplegar
  );
+
+# Consulta Pŕoximos Eventos
+function mostrar_proximos_eventos( $titulo ) {  # 'titulo' propiedad a la que se pasa un valor dentro del ShorCode
+  /* Personalizamos la consulta */
+  $args = array(
+    'post_type'      => 'eventos',                  # Elegimos el tipo de entradas que deseamos publicar
+    'meta_key'       => 'ga_campos_eventos_fecha',  # (string) Nombre Identificador del Campo
+    'meta_query'     => array(                      # (array) Contiene una o más 'Arrays' con con claves para consulta
+      array(
+        'key' => 'ga_campos_eventos_fecha',         # (string) Llave que se desea comparar
+        'value' => time(),                          # (string/array) Hora Actual. Puede ser un 'Array' cuando la comparación es: IN, NOT IN, BETWEEN, NOT BETWEEN
+        'compare' => '>=',                          # (string) Operador para comparar (Sus valores puede ser: =, !=, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT, REGEXP, NOT REGEXP, RLIKE)
+        'type' => 'NUMERIC'                         # Tipo de Campo Personalizado (Sus valores pueden ser: NUMERIC, BINARY, CHAR, DATE, DATETIME, DECIMAL, SIGNED, TIME, UNSIGNED)
+      )
+    ),
+    'orderby'        => 'meta_value',               # Valor personalizado En este caso hace referencia a: 'value' => time() del 'meta_query'
+    'order'          => 'ASC',                      # Orden de la publicación (Descendente)
+    'posts_per_page' => -1                          # Cantidad de publicaciones por página (-1) Todos
+  );
+
+  /* Realiza la consulta WP_Query */
+  $eventos = new WP_Query( $args );
+
+  echo '<h2 class="text-center">' .$titulo[ 'titulo' ]. '</h2>';  # 'titulo' Imprime propiedad a la que se pasa un valor dentro del ShorCode
+
+  # Imprime las entradas requeridas
+  while( $eventos -> have_posts() ):
+    $eventos -> the_post();
+
+    echo '<h4 class="text-center">' .get_the_title(). '</h4>';
+
+  endwhile; wp_reset_postdata();
+}
+# ShortCode: Agrega un Hook para una etiqueta tipo 'Abreviación o código corto'
+add_shortcode(
+  'proximos-eventos',             # Nombre de la etiqueta que identificará al ShortCode
+  'mostrar_proximos_eventos'      # La funcionalidad o código a desplegar
+);
 
 ?>
