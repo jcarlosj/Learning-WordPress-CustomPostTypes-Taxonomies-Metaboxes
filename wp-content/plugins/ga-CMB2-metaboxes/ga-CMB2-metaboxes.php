@@ -105,20 +105,69 @@ function mostrar_proximos_eventos( $titulo ) {  # 'titulo' propiedad a la que se
   /* Realiza la consulta WP_Query */
   $eventos = new WP_Query( $args );
 
-  echo '<h2 class="text-center">' .$titulo[ 'titulo' ]. '</h2>';  # 'titulo' Imprime propiedad a la que se pasa un valor dentro del ShorCode
+  # 'titulo' Imprime propiedad a la que se pasa un valor dentro del ShorCode
+  echo '
+    <h2 class="text-center">' .$titulo[ 'titulo' ]. '</h2>
+    <div id="eventos" class="no-bullet">
+  ';
 
   # Imprime las entradas requeridas
   while( $eventos -> have_posts() ):
     $eventos -> the_post();
+    $data = array(
+      'titulo'              => get_the_title(),
+      'contenido'           => get_the_content(),
+      'imagen_destacada'    => get_the_post_thumbnail( get_the_ID(), 'entry-image' ),
+      'lugares_disponibles' => get_post_meta( get_the_ID(), 'ga_campos_eventos_lugares', true ),
+      'ciudad'              => get_post_meta( get_the_ID(), 'ga_campos_eventos_ciudad', true ),
+      'fecha_evento'        => gmdate( 'd-m-Y', get_post_meta( get_the_ID(), 'ga_campos_eventos_fecha', true ) ),
+      'hora_evento'         => gmdate( 'H:i', get_post_meta( get_the_ID(), 'ga_campos_eventos_fecha', true ) ),
+      'temas'               => get_post_meta( get_the_ID(), 'ga_campos_eventos_temas', true )
+    );
 
-    echo '<h4 class="text-center">' .get_the_title(). '</h4>';
+    echo show_eventos( $data );
 
   endwhile; wp_reset_postdata();
+
+  echo '</div>';
+
 }
 # ShortCode: Agrega un Hook para una etiqueta tipo 'Abreviación o código corto'
 add_shortcode(
   'proximos-eventos',             # Nombre de la etiqueta que identificará al ShortCode
   'mostrar_proximos_eventos'      # La funcionalidad o código a desplegar
 );
+
+function show_eventos( array $data ) {
+  $html = "";
+  #echo "<pre>"; print_r( $data ); echo "</pre>";
+
+  $html .= ( !empty( $data[ 'titulo' ] ) ) ? "<h3 class='titulo text-center'> {$data[ 'titulo' ]} </h3>" : "";
+  $html .= ( !empty( $data[ 'imagen_destacada' ] ) ) ? "{$data[ 'imagen_destacada' ]}" : "";
+  $html .= ( !empty( $data[ 'contenido' ] ) ) ? "<p class ='contenido'> {$data[ 'contenido' ]} </p>"       : "";
+  $html .= "<div class='informacion-evento'>";
+  $html .= ( !empty( $data[ 'ciudad' ] ) ) ? "<p class ='ciudad'><strong>Ciudad: </strong> {$data[ 'ciudad' ]} </p>" : "";
+  $html .= ( !empty( $data[ 'lugares_disponibles' ] ) ) ? "<p class ='lugares'><strong>Lugares disponibles: </strong> {$data[ 'lugares_disponibles' ]} </p>" : "";
+  $html .= ( !empty( $data[ 'fecha_evento' ] ) ) ? "<p class ='fecha-evento'><strong>Fecha: </strong> {$data[ 'fecha_evento' ]} </p>" : "";
+  $html .= ( !empty( $data[ 'hora_evento' ] ) ) ? "<p class ='hora-evento'><strong>Hora: </strong> {$data[ 'hora_evento' ]} </p>" : "";
+  $html .= "</div>";
+
+    if( is_array( $data[ 'temas' ] ) ) {
+      $html .= "
+        <div class='temario'>
+        <h4>Temas</h4>
+          <ul>";
+          foreach ($data[ 'temas' ] as $key => $value) {
+            $html .= "<li>{$value}</li>";
+          }
+
+      $html .= "
+          </ul>
+        </div>
+      ";
+    }
+
+  return $html;
+}
 
 ?>
