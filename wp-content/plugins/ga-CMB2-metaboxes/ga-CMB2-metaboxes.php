@@ -138,6 +138,61 @@ add_shortcode(
   'mostrar_proximos_eventos'      # La funcionalidad o código a desplegar
 );
 
+# Consulta Eventos Anteriores
+function mostrar_eventos_anteriores( $titulo ) {  # 'titulo' propiedad a la que se pasa un valor dentro del ShorCode
+  /* Personalizamos la consulta */
+  $args = array(
+    'post_type'      => 'eventos',                  # Elegimos el tipo de entradas que deseamos publicar
+    'meta_key'       => 'ga_campos_eventos_fecha',  # (string) Nombre Identificador del Campo
+    'meta_query'     => array(                      # (array) Contiene una o más 'Arrays' con con claves para consulta
+      array(
+        'key' => 'ga_campos_eventos_fecha',         # (string) Llave que se desea comparar
+        'value' => time(),                          # (string/array) Hora Actual. Puede ser un 'Array' cuando la comparación es: IN, NOT IN, BETWEEN, NOT BETWEEN
+        'compare' => '<=',                          # (string) Operador para comparar (Sus valores puede ser: =, !=, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT, REGEXP, NOT REGEXP, RLIKE)
+        'type' => 'NUMERIC'                         # Tipo de Campo Personalizado (Sus valores pueden ser: NUMERIC, BINARY, CHAR, DATE, DATETIME, DECIMAL, SIGNED, TIME, UNSIGNED)
+      )
+    ),
+    'orderby'        => 'meta_value',               # Valor personalizado En este caso hace referencia a: 'value' => time() del 'meta_query'
+    'order'          => 'ASC',                      # Orden de la publicación (Descendente)
+    'posts_per_page' => -1                          # Cantidad de publicaciones por página (-1) Todos
+  );
+
+  /* Realiza la consulta WP_Query */
+  $eventos = new WP_Query( $args );
+
+  # 'titulo' Imprime propiedad a la que se pasa un valor dentro del ShorCode
+  echo '
+    <h2 class="text-center">' .$titulo[ 'titulo' ]. '</h2>
+    <div id="eventos" class="no-bullet">
+  ';
+
+  # Imprime las entradas requeridas
+  while( $eventos -> have_posts() ):
+    $eventos -> the_post();
+    $data = array(
+      'titulo'              => get_the_title(),
+      'contenido'           => get_the_content(),
+      'imagen_destacada'    => get_the_post_thumbnail( get_the_ID(), 'entry-image' ),
+      'lugares_disponibles' => get_post_meta( get_the_ID(), 'ga_campos_eventos_lugares', true ),
+      'ciudad'              => get_post_meta( get_the_ID(), 'ga_campos_eventos_ciudad', true ),
+      'fecha_evento'        => gmdate( 'd-m-Y', get_post_meta( get_the_ID(), 'ga_campos_eventos_fecha', true ) ),
+      'hora_evento'         => gmdate( 'H:i', get_post_meta( get_the_ID(), 'ga_campos_eventos_fecha', true ) ),
+      'temas'               => get_post_meta( get_the_ID(), 'ga_campos_eventos_temas', true )
+    );
+
+    echo show_eventos( $data );
+
+  endwhile; wp_reset_postdata();
+
+  echo '</div>';
+
+}
+# ShortCode: Agrega un Hook para una etiqueta tipo 'Abreviación o código corto'
+add_shortcode(
+  'eventos-pasados',                # Nombre de la etiqueta que identificará al ShortCode
+  'mostrar_eventos_anteriores'      # La funcionalidad o código a desplegar
+);
+
 function show_eventos( array $data ) {
   $html = "";
   #echo "<pre>"; print_r( $data ); echo "</pre>";
