@@ -3,6 +3,14 @@
 $page-title: 'Pinyon Script', cursive;
 $page-description: 'Yellowtail', cursive;
 
+body {
+  div {
+    &.site {
+      overflow: hidden;
+    }
+  }
+}
+
 a {
   &:visited {
     color: $primary-color;
