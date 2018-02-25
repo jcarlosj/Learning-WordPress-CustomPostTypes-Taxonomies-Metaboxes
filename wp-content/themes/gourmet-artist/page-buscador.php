@@ -21,6 +21,7 @@ get_header(); ?>
 			<div class="buscador">
 				<input id="buscar" type="text" name="buscar" value="" placeholder="Buscar recetas" />
 				<button id="btn-buscar" type="button" class="button">Buscar</button>
+				<div id="termino-buscado"></div>
 			</div>
 
 		</main><!-- #main -->

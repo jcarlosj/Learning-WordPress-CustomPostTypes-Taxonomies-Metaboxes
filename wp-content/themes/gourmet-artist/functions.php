@@ -244,6 +244,28 @@ add_action(
 	'mostrar_post_type' 	// La funcionalidad o código a desplegar
 );
 
+/* Crea consulta para el buscador Avanzado usando AJAX en WordPress */
+function buscar_resultados() {
+	$buscar = $_POST[ 'buscar' ];
+
+
+	/* Convertir el 'Array' a una cadena JSON */
+	header( 'Content-type: application/json' );			# Envia encabezado http json al navegador para informarle el tipo de datos que espera
+	echo json_encode( $buscar );								    # Convierte el 'Array' a JSON
+
+	die;			// Es necesario usarla, para resetear como se hace con 'wp_reset_postdata()' un 'WP_Query'
+						// Esta es la forma como se hace el RESET, ya que la función 'get_posts' no modifica el Query como si lo hace 'WP_Query'
+}
+// Doble Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
+add_action(
+	'wp_ajax_nopriv_buscar_resultados', 	// Lugar donde queremos que se ejecute la funcionalidad. En este caso antes de obtener los posts de la página del sitio
+	'buscar_resultados' 									// La funcionalidad o código a desplegar
+);
+add_action(
+	'wp_ajax_buscar_resultados', 		// Lugar donde queremos que se ejecute la funcionalidad. En este caso antes de obtener los posts de la página del sitio
+	'buscar_resultados' 					  // La funcionalidad o código a desplegar
+);
+
 /* Crea consulta de entradas (Post) 'recetas' para usar Ajax en WordPress */
 function sugerencia_recetas_desayunar() {
 
