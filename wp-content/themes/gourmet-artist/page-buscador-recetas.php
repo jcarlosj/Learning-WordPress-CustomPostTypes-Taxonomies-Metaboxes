@@ -28,7 +28,7 @@ get_header(); ?>
 					)
 				);
 			?>
-			<ul class="simplefilter menu">
+			<ul class="simplefilter menu row">
 				<?php foreach ( $terminos as $key => $termino ): ?>
 					<?php echo '<li data-filter="' .$termino -> term_taxonomy_id. '">' .$termino -> name. '</li>'; ?>
 				<?php endforeach; ?>
@@ -36,22 +36,47 @@ get_header(); ?>
 
 			<?php
 
-			# Creamos los argumentos de la consulta que deseamos hacer a WordPress
-      $args = array(
-        'post_type'      => 'recetas',   				# Nombre del 'Post Type' (Se puede ver en la URL del ADMIN)
-        'posts_per_page' => -1,                 # Cantidad de registros a mostrar por página (-1 significa imprimirlos todos
-        'orderby'        => 'title',            # Ordenar por: Fecha de publicación, orden alfabético, Author etc.
-        'order'          => 'ASC'              # Tipo de orden: Ascendente, Descendente
-      );
-      #
-      $recetas = new WP_Query( $args );          # Hacemos la consulta usando el 'WP_Query' y pasamos los argumentos de la misma
-      while ( $recetas -> have_posts() ): $recetas -> the_post();    # Creamos un loop para imprimir los valores traidos por la consulta
-    ?>
+				# Creamos los argumentos de la consulta que deseamos hacer a WordPress
+	      $args = array(
+	        'post_type'      => 'recetas',   				# Nombre del 'Post Type' (Se puede ver en la URL del ADMIN)
+	        'posts_per_page' => -1,                 # Cantidad de registros a mostrar por página (-1 significa imprimirlos todos
+	        'orderby'        => 'title',            # Ordenar por: Fecha de publicación, orden alfabético, Author etc.
+	        'order'          => 'ASC'              # Tipo de orden: Ascendente, Descendente
+	      );
+	      #
+	      $recetas = new WP_Query( $args );          # Hacemos la consulta usando el 'WP_Query' y pasamos los argumentos de la misma
 
-      <?php the_title(); ?><br />
+				if( $recetas -> have_posts() ) :
+			?>
+				<div class="row">
+					<div class="filtra-contenido">
+							<div class="row small-up-2 medium-up-3 large-up-4">
 
-    <?php endwhile; wp_reset_postdata(); # Solo usamos 'wp_reset_postdata()' cuando se use el 'WP_Query()' ?>
+								<?php while ( $recetas -> have_posts() ): $recetas -> the_post();    # Creamos un loop para imprimir los valores traidos por la consulta ?>
+									<?php
+										$terminos = wp_get_post_terms(					# Obtiene cada uno de los términos que estén asociados al post que se le pasa
+											get_the_ID(),													# ID del Post Type
+											'tipo_receta'													# Nombre de la Taxonomía que posee los términos que deseamos obtener
+										);
 
+										//echo '<pre>'; var_dump( $terminos ); echo '</pre>';
+									?>
+									<div class="column filtr-item" data-category=<?php echo $terminos[ 0 ] -> term_taxonomy_id; ?> >
+										<a href="<?php the_permalink(); ?>">
+											<?php the_post_thumbnail( 'entry-image' ); ?>
+											<p class="text-center"><?php the_title(); ?></p>
+										</a>
+									</div>
+
+						    <?php endwhile; ?>
+
+							</div>
+					</div>
+				</div>
+
+		<?php endif; ?>
+
+		<?php wp_reset_postdata(); # Solo usamos 'wp_reset_postdata()' cuando se use el 'WP_Query()' ?>
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
