@@ -13,6 +13,7 @@
  */
 
 get_header(); ?>
+
 	<div id="primary" class="content-area columns">
 		<main id="main" class="site-main" role="main">
 			<span class="file">page-buscador-recetas.php</span>
@@ -27,7 +28,9 @@ get_header(); ?>
 					)
 				);
 			?>
-			<ul class="simplefilter menu row">
+			<ul class="simplefilter menu">
+				<li class="active" data-filter="all">Todos</li>
+
 				<?php foreach ( $terminos as $key => $termino ): ?>
 					<?php echo '<li data-filter="' .$termino -> term_taxonomy_id. '">' .$termino -> name. '</li>'; ?>
 				<?php endforeach; ?>
@@ -47,30 +50,28 @@ get_header(); ?>
 
 				if( $recetas -> have_posts() ) :
 			?>
-				<div class="row">
-					<div class="filtra-recetas">
-							<div class="row small-up-2 medium-up-3 large-up-4">
+				<div class="filtra-recetas row">
+						<div class="small-up-2 medium-up-3 large-up-4">
 
-								<?php while ( $recetas -> have_posts() ): $recetas -> the_post();    # Creamos un loop para imprimir los valores traidos por la consulta ?>
-									<?php
-										$terminos = wp_get_post_terms(					# Obtiene cada uno de los términos que estén asociados al post que se le pasa
-											get_the_ID(),													# ID del Post Type
-											'tipo_receta'													# Nombre de la Taxonomía que posee los términos que deseamos obtener
-										);
+							<?php while ( $recetas -> have_posts() ): $recetas -> the_post();    # Creamos un loop para imprimir los valores traidos por la consulta ?>
+								<?php
+									$terminos = wp_get_post_terms(					# Obtiene cada uno de los términos que estén asociados al post que se le pasa
+										get_the_ID(),													# ID del Post Type
+										'tipo_receta'													# Nombre de la Taxonomía que posee los términos que deseamos obtener
+									);
 
-										//echo '<pre>'; var_dump( $terminos ); echo '</pre>';
-									?>
-									<div class="column filtr-item" data-category=<?php echo $terminos[ 0 ] -> term_taxonomy_id; ?> >
-										<a href="<?php the_permalink(); ?>">
-											<?php the_post_thumbnail( 'entry-image' ); ?>
-											<p class="text-center"><?php the_title(); ?></p>
-										</a>
-									</div>
+									//echo '<pre>'; var_dump( $terminos ); echo '</pre>';
+								?>
+								<div class="column filtr-item" data-category=<?php echo $terminos[ 0 ] -> term_taxonomy_id; ?> >
+									<a href="<?php the_permalink(); ?>">
+										<?php the_post_thumbnail( 'entry-image' ); ?>
+										<p class="text-center"><?php the_title(); ?></p>
+									</a>
+								</div>
 
-						    <?php endwhile; ?>
+					    <?php endwhile; ?>
 
-							</div>
-					</div>
+						</div>
 				</div>
 
 		<?php endif; ?>

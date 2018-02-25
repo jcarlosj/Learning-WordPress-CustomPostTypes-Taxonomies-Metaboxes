@@ -501,3 +501,43 @@ footer {
      }
    }
  }
+
+/* Template: page-buscador-recetas.php */
+#content {
+  #primary {
+        main {
+
+            ul {
+              &.simplefilter {
+                margin: 0 0 20px 0;
+
+                li {
+                  text-transform: uppercase;
+                  padding: 0.5rem 1rem;
+                  cursor: pointer;
+                  background-color: #78A837;
+                  font-weight: bold;
+                  height: auto;
+
+                  &.active {
+                    background-color: #212121;
+                    color: $white;
+                  }
+                }
+              }
+            }
+
+            .filtra-recetas {
+              .filtr-item {
+                a {
+                  p {
+                    height: 52px;
+                    margin: auto;
+                  }
+                }
+
+              }
+            }
+    }
+  }
+}
