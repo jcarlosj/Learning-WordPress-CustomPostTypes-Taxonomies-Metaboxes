@@ -173,7 +173,7 @@ function gourmet_artist_scripts() {
 		array(),
 		'v4.1.6'
 	);
-	/* Implementa plugin jQuery 'Filterizr' */
+	/* Implementa el 'plugin' de jQuery Filterizr que: ordena, mezcla y aplica filtros */
 	wp_enqueue_script(
 		'filterizr',
 		get_template_directory_uri(). '/js/jquery.filterizr.min.js',
@@ -187,7 +187,13 @@ function gourmet_artist_scripts() {
 		array( 'filterizr' ),
 		'v1.0.0'
 	);
-	/* Implementa el 'plugin' de jQuery Filterizr que: ordena, mezcla y aplica filtros */
+	/* Implementa JavaScript para el Buscador Avanzado usando AJAX */
+	wp_enqueue_script(
+		'xhr-buscador-avanzado',
+		get_template_directory_uri(). '/js/xhr-buscador-avanzado.js',
+		array( 'jquery' ),
+		'v1.0.0'
+	);
 	/* Implementa las librerías JS principales de 'Foundation' al "UnderScores Theme" de WordPress */
 	wp_enqueue_script(
 		'app-js',
