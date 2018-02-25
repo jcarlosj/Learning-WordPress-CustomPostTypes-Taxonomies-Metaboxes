@@ -173,11 +173,19 @@ function gourmet_artist_scripts() {
 		array(),
 		'v4.1.6'
 	);
+	/* Implementa plugin jQuery 'Filterizr' */
 	wp_enqueue_script(
 		'filterizr',
 		get_template_directory_uri(). '/js/jquery.filterizr.min.js',
 		array(),
 		'v1.3.4'
+	);
+	/* Implementa Configuración del plugin 'Filterizr' */
+	wp_enqueue_script(
+		'app-filterizr',
+		get_template_directory_uri(). '/js/app-filterizr.js',
+		array( 'filterizr' ),
+		'v1.0.0'
 	);
 	/* Implementa el 'plugin' de jQuery Filterizr que: ordena, mezcla y aplica filtros */
 	/* Implementa las librerías JS principales de 'Foundation' al "UnderScores Theme" de WordPress */

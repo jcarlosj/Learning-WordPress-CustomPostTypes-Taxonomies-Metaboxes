@@ -13,10 +13,9 @@
  */
 
 get_header(); ?>
-
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main">
-
+	<div id="primary" class="content-area columns">
+		<main id="main" class="site-main" role="main">
+			<span class="file">page-buscador-recetas.php</span>
 			<?php
 				# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
 				$terminos = get_terms(
@@ -49,7 +48,7 @@ get_header(); ?>
 				if( $recetas -> have_posts() ) :
 			?>
 				<div class="row">
-					<div class="filtra-contenido">
+					<div class="filtra-recetas">
 							<div class="row small-up-2 medium-up-3 large-up-4">
 
 								<?php while ( $recetas -> have_posts() ): $recetas -> the_post();    # Creamos un loop para imprimir los valores traidos por la consulta ?>
