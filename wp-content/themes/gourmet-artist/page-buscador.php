@@ -19,8 +19,25 @@ get_header(); ?>
 			<span class="file">page-buscador.php</span>
 			<h2>Buscador Avanzado</h2>
 			<div class="buscador">
-				<input id="buscar" type="text" name="buscar" value="" placeholder="Ej: 500" />
-				<p>Escriba el mínimo valor calórico que debe tener la receta</p>
+				<input id="buscar" type="text" name="buscar" value="" placeholder="Buscar recetas" />
+				<p>Escriba el término por el que desea realizar la búsqueda</p>
+				<label for="precio">Precio:</label>
+				<select id="precio" class="" name="precio">
+					<option name="default" value="">Seleccione</option>
+					<?php
+						# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
+						$terminos = get_terms(
+							array(
+								'taxonomy' => 'precio_receta'
+							)
+						);
+
+						# Recorremos cada uno de los términos creamos cada una de las opciones del elemento select
+						foreach ($terminos as $key => $termino ) {
+							echo '<option value="' .$termino -> slug. '">' .$termino -> name. '</option>';
+						}
+					?>
+				</select>
 				<button id="btn-buscar" type="button" class="button">Buscar</button>
 			</div>
 			<div id="termino-buscado"></div>

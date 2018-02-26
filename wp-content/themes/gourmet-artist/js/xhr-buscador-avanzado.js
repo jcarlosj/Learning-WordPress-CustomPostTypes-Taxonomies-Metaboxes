@@ -6,8 +6,15 @@ $( document ) .ready( function() {
   // Evento para el Botón Buscar
   $( '#btn-buscar' ) .on( 'click', function() {
 
-    var termino = $( '#buscar' ) .val();    // Obtiene el valor contenido por el elemento con el ID 'buscar'
-    console .log( 'termino a buscar: ', termino );
+    var termino = $( '#buscar' ) .val(),    // Obtiene el valor contenido por el elemento con el ID 'buscar'
+        precio  = $( '#precio' ) .val();    // Obtiene el valor contenido por el elemento con el ID 'precio'
+
+    console .log( 'Término a buscar: ', termino );
+
+    if( precio ) {
+      console .log( 'Precio a buscar: ', precio );
+    }
+
     $( '#termino-buscado div' ) .remove();         // Elimina lo que esté desplegado en cada busqueda
 
     // Consulta datos usando AJAX para desplegarlo en la vista
@@ -16,7 +23,8 @@ $( document ) .ready( function() {
       type: 'post',
       data: {
         action: 'buscar_resultados',  // Nombre de la función que deseamos acceder
-        buscar: termino
+        buscar: termino,
+        precio: precio
       }
     }) .done( function( response ) {
       console .log( response );             // Respuesta
@@ -24,7 +32,7 @@ $( document ) .ready( function() {
       // Recorre el 'Array' para obtener cada uno de los datos
       $.each( response, function( index, object ) {
         // Crea una plantilla para formatear los datos
-        // TODO: Revisar por que el contenido del post '${ object .contenido }' no queda embebido en el elemento <p> y en cambio genera un elemento <div> con clase 'lipsum' 
+        // TODO: Revisar por que el contenido del post '${ object .contenido }' no queda embebido en el elemento <p> y en cambio genera un elemento <div> con clase 'lipsum'
         template = `
           <div class="receta row">
             <div class="medium-4 small-12 columns">

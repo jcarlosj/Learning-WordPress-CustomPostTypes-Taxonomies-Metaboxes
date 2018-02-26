@@ -254,19 +254,22 @@ add_action(
 function buscar_resultados() {
 	$listadoPost = array();
 	$buscar = $_POST[ 'buscar' ];
+	$precio = $_POST[ 'precio' ];
 
 	/* Personaliza la consulta */
 	$args = array(
 		'post_type'      => 'recetas',			# Elegimos el tipo de entrada que deseamos publicar
 		'posts_per_page' => -1,							# Cantidad de publicaciones (-1 representa todas las publicaciones)
-		#'s'              => $buscar					# (string) Muestra publicaciones basadas en una busqueda por palabra clave al Título
-		'meta_query'     => array(                      # (array) Contiene una o más 'Arrays' con con claves para consulta. Es la forma como se realizan consultas a los Metaboxes
+		's'              => $buscar,				# (string) Muestra publicaciones basadas en una busqueda por palabra clave al Título
+		'tax_query'			 => array(					# (array) Contiene una o más 'Arrays' con con claves para consulta. Es la forma como se realizan consultas a las Taxonomías
+			'relation' 	=> 'OR',							# (string) Relación Lógica entre cada matriz de la taxonomía interna cuando hay más de una (Valores posibles: AND, OR, Valor por defecto: AND)
 			array(
-				'key'     => 'input-metabox',         			# (string) Llave que se desea comparar (Calorias)
-				'value'   => $buscar,                       # (string/array) Hora Actual. Puede ser un 'Array' cuando la comparación es: IN, NOT IN, BETWEEN, NOT BETWEEN
-				'compare' => '>=' 		                      # (string) Operador para comparar (Sus valores puede ser: =, !=, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT, REGEXP, NOT REGEXP, RLIKE)
+				'taxonomy' => 'precio_receta',	# Nombre de la Taxonomía
+				'field'		 => 'slug',						# Nombre del campo de la taxonomía sobre le que se realiza la busqueda
+				'terms'    => array ( $precio ) # (int/stringarray) Termino(s) de la taxonomía a buscar
 			)
-		)	
+		),
+		'orderby' => 'id'
 	);
 
 	/* Realiza la consulta */
