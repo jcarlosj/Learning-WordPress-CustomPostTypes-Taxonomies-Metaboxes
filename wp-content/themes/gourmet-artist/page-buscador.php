@@ -20,9 +20,10 @@ get_header(); ?>
 			<h2>Buscador Avanzado</h2>
 			<div class="buscador">
 				<input id="buscar" type="text" name="buscar" value="" placeholder="Buscar recetas" />
+				<p>Escriba el término por el que desea realizar la búsqueda</p>
 				<button id="btn-buscar" type="button" class="button">Buscar</button>
-				<div id="termino-buscado"></div>
 			</div>
+			<div id="termino-buscado"></div>
 
 		</main><!-- #main -->
 	</div><!-- #primary -->

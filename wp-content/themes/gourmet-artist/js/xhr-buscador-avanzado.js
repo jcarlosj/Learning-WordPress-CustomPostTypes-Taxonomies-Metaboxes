@@ -24,8 +24,9 @@ $( document ) .ready( function() {
       // Recorre el 'Array' para obtener cada uno de los datos
       $.each( response, function( index, object ) {
         // Crea una plantilla para formatear los datos
+        // TODO: Revisar por que el contenido del post '${ object .contenido }' no queda embebido en el elemento <p> y en cambio genera un elemento <div> con clase 'lipsum' 
         template = `
-          <div class="row">
+          <div class="receta row">
             <div class="medium-4 small-12 columns">
               ${ object .imagen }
             </div>
@@ -33,7 +34,7 @@ $( document ) .ready( function() {
               <a href="${ object .enlace }">
                 <h3 class="text-center">${ object .titulo }</h3>
               </a>
-              <p>${ object .contenido } ... </p>
+              <p class="contenido-receta">${ object .contenido } ... </p>
               <a href="${ object .enlace }" class="button">Leer más</a>
             </div>
           </div>

@@ -19,27 +19,33 @@ if ( ! function_exists( 'gourmet_artist_setup' ) ) :
 		/* Personalizamos nu nuevo tamaño de imagen */
 		add_image_size(
 			'entry-image', 	# Nombre del tamaño de imagen que hemos registrado
-			619, 						# Alto de la imagen en pixeles
-			462, 						# Ancho de la imagen en pixeles
+			619, 						# Ancho de la imagen en pixeles
+			462, 						# Alto de la imagen en pixeles
 			true 						# TRUE -> Si deseamos que haga un cropping de la imagen
 		);
 		add_image_size(
 			'slider-image', # Nombre del tamaño de imagen que hemos registrado
-			1200, 				  # Alto de la imagen en pixeles
-			370, 						# Ancho de la imagen en pixeles
+			1200, 				  # Ancho de la imagen en pixeles
+			370, 						# Alto de la imagen en pixeles
 			true 						# TRUE -> Si deseamos que haga un cropping de la imagen
 		);
 		add_image_size(
 			'tipo-receta-image', # Nombre del tamaño de imagen que hemos registrado
-			560,  				       # Alto de la imagen en pixeles
-			800, 						     # Ancho de la imagen en pixeles
+			560,  				       # Ancho de la imagen en pixeles
+			800, 						     # Alto de la imagen en pixeles
 			true 						     # TRUE -> Si deseamos que haga un cropping de la imagen
 		);
 		add_image_size(
 			'horario-receta-image', # Nombre del tamaño de imagen que hemos registrado
-			385,  				          # Alto de la imagen en pixeles
-			491, 						        # Ancho de la imagen en pixeles
+			385,  				          # Ancho de la imagen en pixeles
+			491, 						        # Alto de la imagen en pixeles
 			true 						        # TRUE -> Si deseamos que haga un cropping de la imagen
+		);
+		add_image_size(
+			'busqueda-avanzada-image', # Nombre del tamaño de imagen que hemos registrado
+			400,  				             # Ancho de la imagen en pixeles
+			380, 						           # Alto de la imagen en pixeles
+			true 						           # TRUE -> Si deseamos que haga un cropping de la imagen
 		);
 		/*
 		 * Make theme available for translation.
@@ -268,8 +274,9 @@ function buscar_resultados() {
 		$listadoPost[] = array(
 			'id'     => $post -> ID,																											// ID del Post
 			'titulo' => $post -> post_title,																							// Título del Post
-			'contenido' => substr( $post -> post_content, 0, 300 ),												// Contenido del Post
-			'imagen' => get_the_post_thumbnail( $post -> ID, 'horario-receta-image' ),		// Imagen del Post
+			// TODO: Revisar por que el contenido del post '${ object .contenido }' no queda embebido en el elemento <p> y en cambio genera un elemento <div> con clase 'lipsum'
+			'contenido' => substr( $post -> post_content, 0, 250 ),												// Contenido del Post
+			'imagen' => get_the_post_thumbnail( $post -> ID, 'busqueda-avanzada-image' ),	// Imagen del Post
 			'enlace' => get_the_permalink( $post -> ID ),																	// Enlace del Post
 			'objecto' => $post																														// Todos los valores del objeto
 		);
