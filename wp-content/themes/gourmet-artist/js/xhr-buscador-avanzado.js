@@ -8,6 +8,7 @@ $( document ) .ready( function() {
 
     var termino = $( '#buscar' ) .val();    // Obtiene el valor contenido por el elemento con el ID 'buscar'
     console .log( 'termino a buscar: ', termino );
+    $( '#termino-buscado div' ) .remove();         // Elimina lo que esté desplegado en cada busqueda
 
     // Consulta datos usando AJAX para desplegarlo en la vista
     $.ajax({
@@ -19,6 +20,28 @@ $( document ) .ready( function() {
       }
     }) .done( function( response ) {
       console .log( response );             // Respuesta
+
+      // Recorre el 'Array' para obtener cada uno de los datos
+      $.each( response, function( index, object ) {
+        // Crea una plantilla para formatear los datos
+        template = `
+          <div class="row">
+            <div class="medium-4 small-12 columns">
+              ${ object .imagen }
+            </div>
+            <div class="medium-8 columns contenido">
+              <a href="${ object .enlace }">
+                <h3 class="text-center">${ object .titulo }</h3>
+              </a>
+              <p>${ object .contenido } ... </p>
+              <a href="${ object .enlace }" class="button">Leer más</a>
+            </div>
+          </div>
+        `;
+
+        // Despliega el resultado en la vista
+        $( '#termino-buscado' ) .append( template );  // Despliega la plantilla con los datos
+      });
 
     });
 

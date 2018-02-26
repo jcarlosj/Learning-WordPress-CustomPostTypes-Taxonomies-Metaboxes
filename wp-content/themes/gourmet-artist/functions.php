@@ -268,7 +268,7 @@ function buscar_resultados() {
 		$listadoPost[] = array(
 			'id'     => $post -> ID,																											// ID del Post
 			'titulo' => $post -> post_title,																							// Título del Post
-			'contenido' => $post -> post_content,																					// Contenido del Post
+			'contenido' => substr( $post -> post_content, 0, 300 ),												// Contenido del Post
 			'imagen' => get_the_post_thumbnail( $post -> ID, 'horario-receta-image' ),		// Imagen del Post
 			'enlace' => get_the_permalink( $post -> ID ),																	// Enlace del Post
 			'objecto' => $post																														// Todos los valores del objeto
