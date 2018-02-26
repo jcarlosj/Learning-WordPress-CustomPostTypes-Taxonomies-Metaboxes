@@ -255,6 +255,7 @@ function buscar_resultados() {
 	$listadoPost = array();
 	$buscar = $_POST[ 'buscar' ];
 	$precio = $_POST[ 'precio' ];
+	$tipo_receta = $_POST[ 'tipo_receta' ];
 
 	/* Personaliza la consulta */
 	$args = array(
@@ -262,11 +263,16 @@ function buscar_resultados() {
 		'posts_per_page' => -1,							# Cantidad de publicaciones (-1 representa todas las publicaciones)
 		's'              => $buscar,				# (string) Muestra publicaciones basadas en una busqueda por palabra clave al Título
 		'tax_query'			 => array(					# (array) Contiene una o más 'Arrays' con con claves para consulta. Es la forma como se realizan consultas a las Taxonomías
-			'relation' 	=> 'OR',							# (string) Relación Lógica entre cada matriz de la taxonomía interna cuando hay más de una (Valores posibles: AND, OR, Valor por defecto: AND)
+			'relation' 	=> 'AND',							# (string) Relación Lógica entre cada matriz de la taxonomía interna cuando hay más de una (Valores posibles: AND, OR, Valor por defecto: AND)
 			array(
 				'taxonomy' => 'precio_receta',	# Nombre de la Taxonomía
 				'field'		 => 'slug',						# Nombre del campo de la taxonomía sobre le que se realiza la busqueda
 				'terms'    => array ( $precio ) # (int/stringarray) Termino(s) de la taxonomía a buscar
+			),
+			array(
+				'taxonomy' => 'tipo_receta',	# Nombre de la Taxonomía
+				'field'		 => 'slug',						# Nombre del campo de la taxonomía sobre le que se realiza la busqueda
+				'terms'    => array ( $tipo_receta ) # (int/stringarray) Termino(s) de la taxonomía a buscar
 			)
 		),
 		'orderby' => 'id'

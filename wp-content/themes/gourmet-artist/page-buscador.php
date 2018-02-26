@@ -38,6 +38,23 @@ get_header(); ?>
 						}
 					?>
 				</select>
+				<label for="tipo-receta">Tipo receta:</label>
+				<select id="tipo-receta" class="" name="tipo_receta">
+					<option name="default" value="">Seleccione</option>
+					<?php
+						# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
+						$terminos = get_terms(
+							array(
+								'taxonomy' => 'tipo_receta'
+							)
+						);
+
+						# Recorremos cada uno de los términos creamos cada una de las opciones del elemento select
+						foreach ($terminos as $key => $termino ) {
+							echo '<option value="' .$termino -> slug. '">' .$termino -> name. '</option>';
+						}
+					?>
+				</select>
 				<button id="btn-buscar" type="button" class="button">Buscar</button>
 			</div>
 			<div id="termino-buscado"></div>
