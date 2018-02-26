@@ -259,7 +259,14 @@ function buscar_resultados() {
 	$args = array(
 		'post_type'      => 'recetas',			# Elegimos el tipo de entrada que deseamos publicar
 		'posts_per_page' => -1,							# Cantidad de publicaciones (-1 representa todas las publicaciones)
-		's'              => $buscar					# (string) Muestra publicaciones basadas en una busqueda por palabra clave
+		#'s'              => $buscar					# (string) Muestra publicaciones basadas en una busqueda por palabra clave al Título
+		'meta_query'     => array(                      # (array) Contiene una o más 'Arrays' con con claves para consulta. Es la forma como se realizan consultas a los Metaboxes
+			array(
+				'key'     => 'input-metabox',         			# (string) Llave que se desea comparar (Calorias)
+				'value'   => $buscar,                       # (string/array) Hora Actual. Puede ser un 'Array' cuando la comparación es: IN, NOT IN, BETWEEN, NOT BETWEEN
+				'compare' => '>=' 		                      # (string) Operador para comparar (Sus valores puede ser: =, !=, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT, REGEXP, NOT REGEXP, RLIKE)
+			)
+		)	
 	);
 
 	/* Realiza la consulta */

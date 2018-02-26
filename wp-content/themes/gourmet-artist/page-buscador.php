@@ -19,8 +19,8 @@ get_header(); ?>
 			<span class="file">page-buscador.php</span>
 			<h2>Buscador Avanzado</h2>
 			<div class="buscador">
-				<input id="buscar" type="text" name="buscar" value="" placeholder="Buscar recetas" />
-				<p>Escriba el término por el que desea realizar la búsqueda</p>
+				<input id="buscar" type="text" name="buscar" value="" placeholder="Ej: 500" />
+				<p>Escriba el mínimo valor calórico que debe tener la receta</p>
 				<button id="btn-buscar" type="button" class="button">Buscar</button>
 			</div>
 			<div id="termino-buscado"></div>
