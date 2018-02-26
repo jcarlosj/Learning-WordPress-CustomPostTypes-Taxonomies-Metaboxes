@@ -290,8 +290,7 @@ function buscar_resultados() {
 		$listadoPost[] = array(
 			'id'     => $post -> ID,																											// ID del Post
 			'titulo' => $post -> post_title,																							// Título del Post
-			// TODO: Revisar por que el contenido del post '${ object .contenido }' no queda embebido en el elemento <p> y en cambio genera un elemento <div> con clase 'lipsum'
-			'contenido' => substr( $post -> post_content, 0, 250 ),												// Contenido del Post
+			'contenido' => substr( apply_filters( 'the_content', $post -> post_content ), 0, 250 ),			// Contenido del Post. La función 'apply_filters()' soluciona el problema de que el contenido del post '${ object .contenido }' que no quedaba embebido en el elemento <p> aunque aún genera el elemento <div> con la clase 'lipsum'
 			'imagen' => get_the_post_thumbnail( $post -> ID, 'busqueda-avanzada-image' ),	// Imagen del Post
 			'enlace' => get_the_permalink( $post -> ID ),																	// Enlace del Post
 			'objecto' => $post																														// Todos los valores del objeto
