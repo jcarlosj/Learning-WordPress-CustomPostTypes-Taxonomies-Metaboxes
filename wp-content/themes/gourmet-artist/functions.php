@@ -246,12 +246,38 @@ add_action(
 
 /* Crea consulta para el buscador Avanzado usando AJAX en WordPress */
 function buscar_resultados() {
+	$listadoPost = array();
 	$buscar = $_POST[ 'buscar' ];
 
+	/* Personaliza la consulta */
+	$args = array(
+		'post_type'      => 'recetas',			# Elegimos el tipo de entrada que deseamos publicar
+		'posts_per_page' => -1,							# Cantidad de publicaciones (-1 representa todas las publicaciones)
+		's'              => $buscar					# (string) Muestra publicaciones basadas en una busqueda por palabra clave
+	);
+
+	/* Realiza la consulta */
+	$posts = get_posts( $args );					# Obtiene todos los post
+
+	/* Recorre y asigna cada uno de los valores de los 'template_tags' del post */
+	foreach ( $posts as $key => $post ) {
+		/* Formatea los datos y permite hacer uso de variables globales de WP
+			 Algunas de ellas son: $id, $authordata, $actualday, $currentmonth, $page, $pages, $multipage, $more, $numpages */
+		setup_postdata( $post );
+
+		$listadoPost[] = array(
+			'id'     => $post -> ID,																											// ID del Post
+			'titulo' => $post -> post_title,																							// Título del Post
+			'contenido' => $post -> post_content,																					// Contenido del Post
+			'imagen' => get_the_post_thumbnail( $post -> ID, 'horario-receta-image' ),		// Imagen del Post
+			'enlace' => get_the_permalink( $post -> ID ),																	// Enlace del Post
+			'objecto' => $post																														// Todos los valores del objeto
+		);
+	}
 
 	/* Convertir el 'Array' a una cadena JSON */
 	header( 'Content-type: application/json' );			# Envia encabezado http json al navegador para informarle el tipo de datos que espera
-	echo json_encode( $buscar );								    # Convierte el 'Array' a JSON
+	echo json_encode( $listadoPost );								# Convierte el 'Array' a JSON
 
 	die;			// Es necesario usarla, para resetear como se hace con 'wp_reset_postdata()' un 'WP_Query'
 						// Esta es la forma como se hace el RESET, ya que la función 'get_posts' no modifica el Query como si lo hace 'WP_Query'

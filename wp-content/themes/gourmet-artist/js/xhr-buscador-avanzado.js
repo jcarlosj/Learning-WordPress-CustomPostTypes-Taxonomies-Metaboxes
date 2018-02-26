@@ -20,12 +20,6 @@ $( document ) .ready( function() {
     }) .done( function( response ) {
       console .log( response );             // Respuesta
 
-      // Crea una plantilla para formatear los datos
-      template = `<p>${ response }</p>`;
-
-      // Despliega el resultado en la vista
-      $( '#termino-buscado p' ) .remove();         // Elimina lo que esté desplegado en la vista
-      $( '#termino-buscado' ) .append( template );  // Despliega la plantilla con los datos
     });
 
   });
