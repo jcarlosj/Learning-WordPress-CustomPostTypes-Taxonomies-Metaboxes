@@ -3,6 +3,34 @@
 $page-title: 'Pinyon Script', cursive;
 $page-description: 'Yellowtail', cursive;
 
+$breakpoint-xs: 360px;
+$breakpoint-sm: 767px;
+$breakpoint-md: 1023px;
+$breakpoint-lg: 1360px;
+
+@mixin media ( $media ) {
+  @if $media == xs {
+    @media ( min-width: $breakpoint-xs ) {
+      @content;
+    }
+  }
+  @else if $media == sm {
+    @media ( min-width: $breakpoint-sm ) {
+      @content;
+    }
+  }
+  @else if $media == md {
+    @media ( min-width: $breakpoint-md ) {
+      @content;
+    }
+  }
+  @else if $media == lg {
+    @media ( min-width: $breakpoint-lg ) {
+      @content;
+    }
+  }
+}
+
 body {
   div {
     &.site {
@@ -572,6 +600,82 @@ footer {
           &.button {
             color: $white;
           }
+        }
+      }
+    }
+  }
+}
+/* Page: Enviar Recetas */
+
+#ga_formulario_enviar_receta {
+  .cmb2-wrap {
+    .cmb2-metabox-title {
+      font-size: 24px;
+    }
+    .cmb-row {
+      padding: 7px 10px;
+
+      .cmb-th {
+        padding: 0;
+
+      }
+      .cmb-td {
+        padding: 0;
+        width: 32rem;
+
+        select {
+          &.cmb2_select {
+            margin-bottom: 0;
+            width: 100%;
+          }
+        }
+
+        label {
+          margin: 0;
+          width: 90%;
+
+          @include media( xs ) {
+            width: 86%
+          }
+          @include media( sm ) {
+            width: 86%
+          }
+          @include media( sm ) {
+            width: 86%
+          }
+        }
+
+        input {
+          margin-bottom: 0;
+          width: 32rem;
+        }
+
+        .cmb2-checkbox-list {
+          padding: 10px 0 10px 0;
+
+          li {
+            width: 100%;
+            padding: 0;
+
+            @include media( xs ) {
+              width: 49%
+            }
+            @include media( sm ) {
+              width: 49%
+            }
+            @include media( md ) {
+              width: 32%
+            }
+
+            input {
+              width: 2%;
+              margin: 0;
+            }
+          }
+        }
+        .cmb2-metabox-description {
+          font-size: 14px;
+          padding: 0;
         }
       }
     }
