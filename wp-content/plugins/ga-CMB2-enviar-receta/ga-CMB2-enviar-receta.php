@@ -66,7 +66,16 @@
      )
    );
 
-   # Agrega campo 'Nombre Receta'
+   # Agrega campo title: Encabezado del Formulario Receta (Separador)
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'encabezado_receta',                                        # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'title',                                                    # Tipo de campo CMB2: input de tipo text
+       'name'    => __( 'Datos Generales de la Receta:', 'cmb2' )               # Label del campo
+     )
+   );
+
+   # Agrega campo input: Título de la Receta
    $formulario_recetas -> add_field(
      array(
        'id'      => 'titulo_receta',                                            # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
@@ -74,6 +83,165 @@
        'name'    => __( 'Nombre Receta:', 'cmb2' ),                             # Label del campo
        'desc'    => __( 'Título con el que aparecerá tú receta', 'cmb2' ),      # Descripción para el campo
        'default' => ''                                                          # Valor por defecto del campo
+     )
+   );
+
+   # Agrega campo input: Subtítulo de la Receta
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'subtitulo_receta',                                         # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'text',                                                     # Tipo de campo CMB2: input de tipo text
+       'name'    => __( 'Subtítulo de la Receta:', 'cmb2' ),                    # Label del campo
+       'desc'    => __( 'Súbtítulo con el que aparecerá tú receta', 'cmb2' ),   # Descripción para el campo
+       'default' => ''                                                          # Valor por defecto del campo
+     )
+   );
+
+   # Agrega campo wysiwyg/textarea: Contenido de la Receta
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'contenido_receta',                                         # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'wysiwyg',                                                  # Tipo de campo CMB2: input de tipo wysiwyg/textarea (Editor WordPress)
+       'name'    => __( 'Receta:', 'cmb2' ),                                    # Label del campo
+       'desc'    => __( 'Contenido de la receta', 'cmb2' ),                     # Descripción para el campo
+       'default' => '',                                                         # Valor por defecto del campo
+       'options' => array(                                                      # Opciones para el textarea del campo wysiwyg del CMB2
+          'textarea_rows' => 12,
+          'media_buttons' => false                                              # Oculta el botón de agregar contenido multimedia
+       )
+     )
+   );
+
+   # Agrega campo input: Calorías de la Receta
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'calorias_receta',                                          # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'text',                                                     # Tipo de campo CMB2: input de tipo text
+       'name'    => __( 'Calorías:', 'cmb2' ),                                  # Label del campo
+       'desc'    => __( 'Número aproximado de calorías de la receta', 'cmb2' ), # Descripción para el campo
+       'default' => '',                                                         # Valor por defecto del campo
+       'attributes' => array(                                                   # Agrega atributos al campo
+         'placeholder' => 'Ej: 500',
+         'type'        => 'number',
+         'min'         => '0',
+         'max'         => '10000'
+       )
+     )
+   );
+
+   # Agrega campo input: Subtítulo de la Receta
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'imagen_destacada',                                         # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'text',                                                     # Tipo de campo CMB2: input de tipo text/file
+       'name'    => __( 'Imagen de la Receta:', 'cmb2' ),                       # Label del campo
+       'desc'    => __( 'Selecciona una imagen del plato finalizado', 'cmb2' ), # Descripción para el campo
+       'default' => '',                                                         # Valor por defecto del campo
+       'attributes' => array(                                                   # Agrega atributos al campo
+         'type' => 'file',                                                      # Convierte el input en un campo para subir archivos
+       )
+     )
+   );
+
+   # Agrega campo text/file: Encabezado del Información Extra Receta (Separador)
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'encabezado_informacion_extra_receta',                      # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'title',                                                    # Tipo de campo CMB2: input de tipo title
+       'name'    => __( 'Información extra:', 'cmb2' )                          # Label del campo
+     )
+   );
+
+   # Agrega campo taxonomy_select: Encabezado del Formulario Receta (Separador)
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'precio_receta',                                            # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'taxonomy_select',                                          # Tipo de campo CMB2: tipo taxonomy_select. Otras opciones disponibles: taxonomy_radio, taxonomy_radio_inline, taxonomy_multicheck, taxonomy_multicheck_inline
+       'name'    => __( 'Precio:', 'cmb2' ),                                    # Label del campo
+       'desc'    => __( 'Rango de precio aproximado de la receta', 'cmb2' ),    # Descripción para el campo
+       'default' => '',
+       'taxonomy' => array(                                                     # Taxonomías que se van a desplegar en el campo
+         'precio_receta'
+       )
+     )
+   );
+
+   # Agrega campo taxonomy_multicheck_inline: Encabezado del Formulario Receta (Separador)
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'tipo_receta',                                              # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'taxonomy_multicheck_inline',                               # Tipo de campo CMB2: tipo taxonomy_select. Otras opciones disponibles: taxonomy_radio, taxonomy_radio_inline, taxonomy_multicheck, taxonomy_multicheck_inline
+       'name'    => __( 'Tipo de receta:', 'cmb2' ),                            # Label del campo
+       'desc'    => __( 'Selecciona el tipo de receta', 'cmb2' ),               # Descripción para el campo
+       'default' => '',
+       'taxonomy' => array(                                                     # Taxonomías que se van a desplegar en el campo
+         'tipo_receta'
+       )
+     )
+   );
+
+   # Agrega campo taxonomy_select: Encabezado del Formulario Receta (Separador)
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'horario_menu_receta',                                      # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'taxonomy_select',                                          # Tipo de campo CMB2: tipo taxonomy_select. Otras opciones disponibles: taxonomy_radio, taxonomy_radio_inline, taxonomy_multicheck, taxonomy_multicheck_inline
+       'name'    => __( 'Hora:', 'cmb2' ),                                      # Label del campo
+       'desc'    => __( 'Recomienda una hora del día para tú receta', 'cmb2' ), # Descripción para el campo
+       'default' => '',
+       'taxonomy' => array(                                                     # Taxonomías que se van a desplegar en el campo
+         'horario_menu'
+       )
+     )
+   );
+
+   # Agrega campo taxonomy_select: Encabezado del Formulario Receta (Separador)
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'etiquetas_receta',                                         # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'text',                                                     # Tipo de campo CMB2: tipo taxonomy_select. Otras opciones disponibles: taxonomy_radio, taxonomy_radio_inline, taxonomy_multicheck, taxonomy_multicheck_inline
+       'name'    => __( 'Etiquetas:', 'cmb2' ),                                 # Label del campo
+       'desc'    => __( 'Agrega las etiquetas separadas por coma (,)', 'cmb2' ), # Descripción para el campo
+       'default' => '',
+       'taxonomy' => array(                                                     # Taxonomías que se van a desplegar en el campo
+         'estado_animo'
+       )
+     )
+   );
+
+   # Agrega campo title: Encabezado del Formulario Receta (Separador)
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'encabezado_autor_receta',                                  # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'title',                                                    # Tipo de campo CMB2: input de tipo text
+       'name'    => __( 'Información del autor:', 'cmb2' )                      # Label del campo
+     )
+   );
+
+   # Agrega campo input: Subtítulo de la Receta
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'autor_receta',                                             # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'text',                                                     # Tipo de campo CMB2: input de tipo text/file
+       'name'    => __( 'Nombre del Autor:', 'cmb2' ),                          # Label del campo
+       'desc'    => __( 'Coloca tú nombre para atribuirte la receta', 'cmb2' ), # Descripción para el campo
+       'default' => '',                                                         # Valor por defecto del campo
+       'attributes' => array(                                                   # Agrega atributos al campo
+         'placeholder' => 'Ej: Juan Carlos Jiménez Gutiérrez',                  # Convierte el input en un campo para subir archivos
+       )
+     )
+   );
+
+   # Agrega campo input: Subtítulo de la Receta
+   $formulario_recetas -> add_field(
+     array(
+       'id'      => 'correo_autor_receta',                                      # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+       'type'    => 'text_email',                                               # Tipo de campo CMB2: input de tipo text/file
+       'name'    => __( 'E-mail:', 'cmb2' ),                                    # Label del campo
+       'desc'    => __( 'Coloca tú e-mail para contactarte en caso de ser necesario', 'cmb2' ), # Descripción para el campo
+       'default' => '',                                                         # Valor por defecto del campo
+       'attributes' => array(                                                   # Agrega atributos al campo
+         'placeholder' => 'elautor@tucorreo.co',                                # Convierte el input en un campo para subir archivos
+       )
      )
    );
 
