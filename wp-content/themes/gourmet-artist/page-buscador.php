@@ -55,6 +55,14 @@ get_header(); ?>
 						}
 					?>
 				</select>
+				<label for="calorias">Cantidad de Calorías:</label>
+				<select id="calorias" class="" name="calorias">
+					<option name="default" value="">Seleccione</option>
+					<option value="0-200">200 o menos</option>
+					<option value="201-400">201 a 400</option>
+					<option value="401-600">401 a 600</option>
+					<option value="601-10000">601 a 10000</option>
+				</select>
 				<button id="btn-buscar" type="button" class="button">Buscar</button>
 			</div>
 			<div id="termino-buscado"></div>

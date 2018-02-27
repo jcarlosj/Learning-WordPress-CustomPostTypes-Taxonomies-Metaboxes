@@ -251,48 +251,42 @@ add_action(
 );
 
 # Valida si ha sido seleccionado la opción precio para realizar la BUSQUEDA AVANZADA usando AJAX en WordPress
-function get_precio_seleccionado( $precio ) {
+function get_campo_seleccionado( $campo_seleccionado, $taxonomia ) {
 	# Valida si se seleccionó un precio
-	if( !empty( $precio ) ) {
-			return $precio;					# Asigna el valor seleccionado
+	if( !empty( $campo_seleccionado ) ) {
+			return $campo_seleccionado;					# Asigna el valor seleccionado
 	}
 	else {
 		# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
-		$terminos_precio_receta = get_terms(
+		$terminos = get_terms(
 			array(
-				'taxonomy' => 'precio_receta'
+				'taxonomy' => $taxonomia
 			)
 		);
 
 		# Recorre y asigna todos los terminos cuando no se ha seleccionado 'Precio'
-		foreach ( $terminos_precio_receta as $key => $termino ) {
-			$todos_los_terminos_precio_receta[] = $termino -> slug;
+		foreach ( $terminos as $key => $termino ) {
+			$todos_los_terminos[] = $termino -> slug;
 		}
 
-		return $todos_los_terminos_precio_receta;
+		return $todos_los_terminos;
 	}
 }
 
-# Valida si ha sido seleccionado la opción precio para realizar la BUSQUEDA AVANZADA usando AJAX en WordPress
-function get_tipo_receta_seleccionado( $tipo_receta ) {
-	# Valida si se seleccionó un precio
-	if( !empty( $tipo_receta ) ) {
-			return $tipo_receta;					# Asigna el valor seleccionado
+function get_calorias_seleccionado( $calorias ) {
+	# Valida si se seleccionó Calorias
+	if( empty( $calorias ) ) {
+		return array(
+			0, 											# Valor Mínimo
+			10000 									# Valor Máximo
+		);
 	}
 	else {
-		# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
-		$terminos_tipo_receta = get_terms(
-			array(
-				'taxonomy' => 'tipo_receta'
-			)
+		$calorias = explode( '-', $calorias );
+		return array(
+			(int) $calorias[ 0 ],		# Valor Mínimo
+			(int) $calorias[ 1 ]    # Valor Máximo
 		);
-
-		# Recorre y asigna todos los terminos cuando no se ha seleccionado 'Precio'
-		foreach ( $terminos_tipo_receta as $key => $termino ) {
-			$todos_los_terminos_tipo_receta[] = $termino -> slug;
-		}
-
-		return $todos_los_terminos_tipo_receta;
 	}
 }
 
@@ -301,11 +295,14 @@ function buscar_resultados() {
 	$listadoPost = array();
 	$buscar = $_POST[ 'buscar' ];
 
-	# Valida si las opciones del Buscador han sido o no seleccionadas
-	$terminos_precio_receta = get_precio_seleccionado( $_POST[ 'precio' ] );
-	$terminos_tipo_receta = get_tipo_receta_seleccionado( $_POST[ 'tipo_receta' ] );
+	# Valida si las opciones del Buscador han sido o no seleccionadas usando: valor seleccionado del campo y nombre de la taxnomía
+	$terminos_precio_receta = get_campo_seleccionado( $_POST[ 'precio' ], 'precio_receta' );
+	$terminos_tipo_receta   = get_campo_seleccionado( $_POST[ 'tipo_receta' ], 'tipo_receta' );
 
-	#$listadoPost = $terminos_tipo_receta;
+	#Valida si la opcion 'Calorias' fue seleccionada
+	$rango_calorias = get_calorias_seleccionado( $_POST[ 'calorias' ] );
+
+	#$listadoPost = $rango_calorias;
 
 	/* Personaliza la consulta */
 	$args = array(
@@ -323,6 +320,14 @@ function buscar_resultados() {
 				'taxonomy' => 'tipo_receta',	      # Nombre de la Taxonomía
 				'field'		 => 'slug',						    # Nombre del campo de la taxonomía sobre le que se realiza la busqueda
 				'terms'    => $terminos_tipo_receta # (int/string/array) Termino(s) de la taxonomía a buscar
+			)
+		),
+		'meta_query'     => array(                      # (array) Contiene una o más 'Arrays' con con claves para consulta. Es la forma como se realizan consultas a los Metaboxes
+			array(
+				'key'     => 'input-metabox',         			# (string) Llave que se desea comparar (Calorias)
+				'value'   => $rango_calorias,               # (string/array) Hora Actual. Puede ser un 'Array' cuando la comparación es: IN, NOT IN, BETWEEN, NOT BETWEEN
+				'type'    => 'NUMERIC',											# Tipo de Campo Personalizado (Sus valores pueden ser: NUMERIC, BINARY, CHAR, DATE, DATETIME, DECIMAL, SIGNED, TIME, UNSIGNED)
+				'compare' => 'BETWEEN' 		                  # (string) Operador para comparar (Sus valores puede ser: =, !=, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT, REGEXP, NOT REGEXP, RLIKE)
 			)
 		),
 		'orderby' => 'id'

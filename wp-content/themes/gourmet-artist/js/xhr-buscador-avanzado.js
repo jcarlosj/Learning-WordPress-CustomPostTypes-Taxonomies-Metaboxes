@@ -8,15 +8,20 @@ $( document ) .ready( function() {
 
     var termino = $( '#buscar' ) .val(),    // Obtiene el valor contenido por el elemento con el ID 'buscar'
         precio  = $( '#precio' ) .val(),    // Obtiene el valor contenido por el elemento con el ID 'precio'
-        tipo_receta  = $( '#tipo-receta' ) .val();    // Obtiene el valor contenido por el elemento con el ID 'tipo_receta'
+        tipo_receta  = $( '#tipo-receta' ) .val(),    // Obtiene el valor contenido por el elemento con el ID 'tipo_receta'
+        calorias     = $( '#calorias' ) .val();    // Obtiene el valor contenido por el elemento con el ID 'tipo_receta'
 
     console .log( 'Término a buscar: ', termino );
+
 
     if( precio ) {
       console .log( 'Precio a buscar: ', precio );
     }
     if( tipo_receta ) {
       console .log( 'Tipo receta a buscar: ', tipo_receta );
+    }
+    if( calorias ) {
+      console .log( 'Calorias: ', calorias );
     }
 
     $( '#termino-buscado div' ) .remove();         // Elimina lo que esté desplegado en cada busqueda
@@ -29,7 +34,8 @@ $( document ) .ready( function() {
         action: 'buscar_resultados',  // Nombre de la función que deseamos acceder
         buscar: termino,
         precio: precio,
-        tipo_receta: tipo_receta
+        tipo_receta: tipo_receta,
+        calorias: calorias
       }
     }) .done( function( response ) {
       console .log( response );             // Respuesta
