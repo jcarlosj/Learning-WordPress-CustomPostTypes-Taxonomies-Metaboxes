@@ -250,12 +250,62 @@ add_action(
 	'mostrar_post_type' 	// La funcionalidad o código a desplegar
 );
 
+# Valida si ha sido seleccionado la opción precio para realizar la BUSQUEDA AVANZADA usando AJAX en WordPress
+function get_precio_seleccionado( $precio ) {
+	# Valida si se seleccionó un precio
+	if( !empty( $precio ) ) {
+			return $precio;					# Asigna el valor seleccionado
+	}
+	else {
+		# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
+		$terminos_precio_receta = get_terms(
+			array(
+				'taxonomy' => 'precio_receta'
+			)
+		);
+
+		# Recorre y asigna todos los terminos cuando no se ha seleccionado 'Precio'
+		foreach ( $terminos_precio_receta as $key => $termino ) {
+			$todos_los_terminos_precio_receta[] = $termino -> slug;
+		}
+
+		return $todos_los_terminos_precio_receta;
+	}
+}
+
+# Valida si ha sido seleccionado la opción precio para realizar la BUSQUEDA AVANZADA usando AJAX en WordPress
+function get_tipo_receta_seleccionado( $tipo_receta ) {
+	# Valida si se seleccionó un precio
+	if( !empty( $tipo_receta ) ) {
+			return $tipo_receta;					# Asigna el valor seleccionado
+	}
+	else {
+		# Obtenemos los terminos de una taxonomía específica 'tipo_receta'
+		$terminos_tipo_receta = get_terms(
+			array(
+				'taxonomy' => 'tipo_receta'
+			)
+		);
+
+		# Recorre y asigna todos los terminos cuando no se ha seleccionado 'Precio'
+		foreach ( $terminos_tipo_receta as $key => $termino ) {
+			$todos_los_terminos_tipo_receta[] = $termino -> slug;
+		}
+
+		return $todos_los_terminos_tipo_receta;
+	}
+}
+
 /* Crea consulta para el buscador Avanzado usando AJAX en WordPress */
 function buscar_resultados() {
 	$listadoPost = array();
 	$buscar = $_POST[ 'buscar' ];
-	$precio = $_POST[ 'precio' ];
-	$tipo_receta = $_POST[ 'tipo_receta' ];
+
+	# Valida si las opciones del Buscador han sido o no seleccionadas
+	$terminos_precio_receta = get_precio_seleccionado( $_POST[ 'precio' ] );
+	$terminos_tipo_receta = get_tipo_receta_seleccionado( $_POST[ 'tipo_receta' ] );
+
+	#$listadoPost = $terminos_tipo_receta;
 
 	/* Personaliza la consulta */
 	$args = array(
@@ -267,18 +317,19 @@ function buscar_resultados() {
 			array(
 				'taxonomy' => 'precio_receta',	# Nombre de la Taxonomía
 				'field'		 => 'slug',						# Nombre del campo de la taxonomía sobre le que se realiza la busqueda
-				'terms'    => array ( $precio ) # (int/stringarray) Termino(s) de la taxonomía a buscar
+				'terms'    => $terminos_precio_receta # (int/string/array) Termino(s) de la taxonomía a buscar
 			),
 			array(
-				'taxonomy' => 'tipo_receta',	# Nombre de la Taxonomía
-				'field'		 => 'slug',						# Nombre del campo de la taxonomía sobre le que se realiza la busqueda
-				'terms'    => array ( $tipo_receta ) # (int/stringarray) Termino(s) de la taxonomía a buscar
+				'taxonomy' => 'tipo_receta',	      # Nombre de la Taxonomía
+				'field'		 => 'slug',						    # Nombre del campo de la taxonomía sobre le que se realiza la busqueda
+				'terms'    => $terminos_tipo_receta # (int/string/array) Termino(s) de la taxonomía a buscar
 			)
 		),
 		'orderby' => 'id'
 	);
 
 	/* Realiza la consulta */
+
 	$posts = get_posts( $args );					# Obtiene todos los post
 
 	/* Recorre y asigna cada uno de los valores de los 'template_tags' del post */
