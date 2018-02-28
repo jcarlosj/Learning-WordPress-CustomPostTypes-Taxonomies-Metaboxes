@@ -306,37 +306,58 @@ add_action(
 
    /*** SANITIZAR LOS DATOS ***/
    $valores_formulario = $formulario -> get_sanitized_values( $_POST );
-   #echo '<pre>'; var_dump( $valores_formulario ); echo '</pre>';
+   echo '<pre>'; var_dump( $valores_formulario ); echo '</pre>';
 
-   # Agrega los valores al 'Array' a la variable $post_data (vacía)
+   # Agrega los valores del Formulario 'Array' a la variable $post_data (vacía)
    $post_data[ 'post_title' ] = $valores_formulario[ 'titulo' ];        # Asigna el valor
    unset( $valores_formulario[ 'titulo' ] );                            # Elimina el valor del 'Array'
-   $post_data[ 'post_subtitle' ] = $valores_formulario[ 'subtitulo' ];  # Asigna el valor
-   unset( $valores_formulario[ 'subtitulo' ] );                         # Elimina el valor del 'Array'
    $post_data[ 'post_content' ] = $valores_formulario[ 'contenido' ];   # Asigna el valor
-   unset( $valores_formulario[ 'contenido' ] );                         # Elimina el valor del 'Array'
-   $post_data[ 'post_calorias' ] = $valores_formulario[ 'calorias' ];   # Asigna el valor
-   unset( $valores_formulario[ 'calorias' ] );                          # Elimina el valor del 'Array'
-   $post_data[ 'post_author' ] = $valores_formulario[ 'autor' ];        # Asigna el valor
-   unset( $valores_formulario[ 'autor' ] );                             # Elimina el valor del 'Array'
-   $post_data[ 'post_email' ] = $valores_formulario[ 'email' ];         # Asigna el valor
-   unset( $valores_formulario[ 'email' ] );                             # Elimina el valor del 'Array'
+   unset( $valores_formulario[ 'contenido' ] );                         # Elimina el valor del 'Array'                            # Elimina el valor del 'Array'
 
-   # Agrega los valores de las TAXONOMÍAS del 'Array' a la variable $post_data (vacía)
+   # Extrae cada una de las etiquetas (Estado de Ánimo)
+   $estado_animo = explode( ',', $valores_formulario[ 'estado' ] );
+
+   # Agrega los valores de las TAXONOMÍAS del Formulario 'Array' a la variable $post_data (vacía)
    $post_data[ 'tax_input' ] = array(
      'precio_receta' => $valores_formulario[ 'precio' ],                # Asigna el Valor
-     'horario_menu'  => $valores_formulario[ 'horario' ],               # Asigna el Valor
      'tipo_receta'   => $valores_formulario[ 'tipo' ],                  # Asigna el Valor
-     'estado_animo'  => explode( ',', $valores_formulario[ 'estado' ] ) # Asigna el Valor
+     'horario_menu'  => $valores_formulario[ 'horario' ],               # Asigna el Valor
+     'estado_animo'  => $estado_animo                                   # Asigna el Valor
    );
-
+/*
    unset( $valores_formulario[ 'precio' ] );                             # Elimina el valor del 'Array'
-   unset( $valores_formulario[ 'horario' ] );                            # Elimina el valor del 'Array'
    unset( $valores_formulario[ 'tipo' ] );                               # Elimina el valor del 'Array'
+   unset( $valores_formulario[ 'horario' ] );                            # Elimina el valor del 'Array'
    unset( $valores_formulario[ 'estado' ] );                             # Elimina el valor del 'Array'
+*/
+   # Agrega los valores de los METABOXES del Formulario 'Array' a la variable $post_data (vacía)
+   $post_data[ 'meta_input' ] = array(
+     'input-metabox'    => $valores_formulario[ 'calorias' ],            # Asigna el valor
+     'textarea-metabox' => $valores_formulario[ 'subtitulo' ]            # Asigna el valor
+    );
+/*
+   unset( $valores_formulario[ 'calorias' ] );                          # Elimina el valor del 'Array'
+   unset( $valores_formulario[ 'subtitulo' ] );                         # Elimina el valor del 'Array'
+*/
+   #echo '<pre>'; var_dump( $post_data ); echo '</pre>';
+   #echo '<pre>'; var_dump( $valores_formulario ); echo '</pre>';
 
-   echo '<pre>'; var_dump( $post_data ); echo '</pre>';
-   echo '<pre>'; var_dump( $valores_formulario ); echo '</pre>';
+   # Indica el POST TYPE donde se van a INSERTAR los DATOS
+   $post_data[ 'post_type' ] = 'recetas';
+
+   # Inserta el nuevo POST TYPE en la Base de Datos de WordPress
+   $post_id = wp_insert_post( $post_data, true );
+
+   if( is_wp_error( $post_id ) ) {
+     return $formulario -> prop( 'submission_error', $post_id );
+   }
+
+   # Guardamos los campos de CMB2
+   $formulario -> save_fields( $post_id, 'post', $valores_formulario );
+
+   # Redireccionamos para prevenir que al recargar no se hagan registros duplicados dentro del Post Type
+   wp_redirect( esc_url_raw( add_query_arg( 'post_submmited', $post_id ) ) );
+   exit;        # Siempre que se use wp_redirect() es necesario que se use exit
 
  }
 
