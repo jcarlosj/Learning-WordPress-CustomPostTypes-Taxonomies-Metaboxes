@@ -18,6 +18,31 @@
 
    $output = '';
 
+   # Mensaje de notificación de ERROR en el formulario
+   if( ( $error = $id_formulario -> prop( 'submission_error' ) ) && is_wp_error( $error ) ) {
+     # Mensaje de Error
+     $output .= '<h3>' .sprintf( __( 'Hubo un error: %s', 'ga_artist' ) , '<strong>' .$error -> get_error_message(). '</strong>' ).  '</h3>';     # Imprime Mensaje
+   }
+   /* NOTA: prop() es una función del CMB2 que permite obtener la propiedad del metabox y opcionalmente establecer un respaldo
+            'submission_error' propiedad para validar el envío correcto de un formulario CMB2
+            is_wp_error() es una función de WordPress y comprueba si la variable es un ERROR de WordPress */
+
+   # Mensaje de Notificación de Envio de Post Exitoso
+   if( isset( $_GET[ 'post_submitted' ] ) && ( $post = get_post( $_GET[ 'post_submmited' ] ) ) ) {
+     # Obtener el nombre del usuario
+     $nombre = get_post_meta( # Recupera el campo del meta de publicación de un Post como 'Array'
+       $post -> ID,           # (int) ID de publicación
+       'autor_receta',        # (string) La meta clave para recuperar. Por defecto devuelve datos para todas las claves. Valor por defecto "". 'autor_receta' hace referencia al campo del formulario
+       1                      # (bool) Si se devuelve o no un solo valor. Valor por defecto: false
+     );
+     $nombre = $nombre ? ' ' .$nombre : '';
+     # abs(): Valor Absoluto
+     $output .= '<h3>' .sprintf( __( 'Gracias %s, tú receta ha sido agregada, una ves pase la revisión será publicada', 'ga_artist' ) , esc_html( $nombre ) ). '</h3>';     # Imprime Mensaje
+   }
+   /* NOTA: get_post_meta() recupera campo del meta de publicación de un Post como 'Array' si $single es false. Será el valor del campo de metadatos si $single es true.
+            get_post_type() recupera el tipo de publicación de un Post Actual o un Post Determinado (int/WP_Post/null $post = null). Valor por defecto: null
+             get_error_message() Recibe un solo mensaje de error. Obtendrá el primer mensaje disponible para el código. Si no se proporciona el código, se usará el primer código disponible (string/ int $code = '') */
+
    $output .= cmb2_get_metabox_form(
      $id_formulario,         # ID del formulario
      'fake-object-id',       # ID Falso del Objeto (Post a donde se va guardar)
