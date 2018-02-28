@@ -121,7 +121,7 @@ function crea_formulario() {
   # Agrega campo taxonomy_select: Precio Receta
   $formulario -> add_field(
     array(
-      'id'       => 'precio_receta',                                           # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+      'id'       => 'precio',                                                  # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
       'type'     => 'taxonomy_select',                                         # Tipo de campo CMB2: tipo taxonomy_select. Otras opciones disponibles: taxonomy_radio, taxonomy_radio_inline, taxonomy_multicheck, taxonomy_multicheck_inline
       'name'     => __( 'Precio:', 'cmb2' ),                                   # Label del campo
       'desc'     => __( 'Rango de precio aproximado de la receta', 'cmb2' ),   # Descripción para el campo
@@ -153,10 +153,10 @@ function crea_formulario() {
     )
   );
 
-  # Agrega campo taxonomy_select: Etiquetas
+  # Agrega campo taxonomy_select: Etiquetas Estado de Ánimo
   $formulario -> add_field(
     array(
-      'id'      => 'etiquetas',                                                # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
+      'id'      => 'estado',                                                   # Nombre Identificador del Campo 'ga_formulario_enviar_receta_titulo_receta'
       'type'    => 'text',                                                     # Tipo de campo CMB2: text
       'name'    => __( 'Etiquetas:', 'cmb2' ),                                 # Label del campo
       'desc'    => __( 'Agrega las etiquetas separadas por coma (,)', 'cmb2' ), # Descripción para el campo
@@ -305,9 +305,38 @@ add_action(
    }
 
    /*** SANITIZAR LOS DATOS ***/
-   $valores_sanitizados = $formulario -> get_sanitized_values( $_POST );
-   echo '<pre>'; var_dump( $valores_sanitizados ); echo '</pre>';
+   $valores_formulario = $formulario -> get_sanitized_values( $_POST );
+   #echo '<pre>'; var_dump( $valores_formulario ); echo '</pre>';
 
+   # Agrega los valores al 'Array' a la variable $post_data (vacía)
+   $post_data[ 'post_title' ] = $valores_formulario[ 'titulo' ];        # Asigna el valor
+   unset( $valores_formulario[ 'titulo' ] );                            # Elimina el valor del 'Array'
+   $post_data[ 'post_subtitle' ] = $valores_formulario[ 'subtitulo' ];  # Asigna el valor
+   unset( $valores_formulario[ 'subtitulo' ] );                         # Elimina el valor del 'Array'
+   $post_data[ 'post_content' ] = $valores_formulario[ 'contenido' ];   # Asigna el valor
+   unset( $valores_formulario[ 'contenido' ] );                         # Elimina el valor del 'Array'
+   $post_data[ 'post_calorias' ] = $valores_formulario[ 'calorias' ];   # Asigna el valor
+   unset( $valores_formulario[ 'calorias' ] );                          # Elimina el valor del 'Array'
+   $post_data[ 'post_author' ] = $valores_formulario[ 'autor' ];        # Asigna el valor
+   unset( $valores_formulario[ 'autor' ] );                             # Elimina el valor del 'Array'
+   $post_data[ 'post_email' ] = $valores_formulario[ 'email' ];         # Asigna el valor
+   unset( $valores_formulario[ 'email' ] );                             # Elimina el valor del 'Array'
+
+   # Agrega los valores de las TAXONOMÍAS del 'Array' a la variable $post_data (vacía)
+   $post_data[ 'tax_input' ] = array(
+     'precio_receta' => $valores_formulario[ 'precio' ],                # Asigna el Valor
+     'horario_menu'  => $valores_formulario[ 'horario' ],               # Asigna el Valor
+     'tipo_receta'   => $valores_formulario[ 'tipo' ],                  # Asigna el Valor
+     'estado_animo'  => explode( ',', $valores_formulario[ 'estado' ] ) # Asigna el Valor
+   );
+
+   unset( $valores_formulario[ 'precio' ] );                             # Elimina el valor del 'Array'
+   unset( $valores_formulario[ 'horario' ] );                            # Elimina el valor del 'Array'
+   unset( $valores_formulario[ 'tipo' ] );                               # Elimina el valor del 'Array'
+   unset( $valores_formulario[ 'estado' ] );                             # Elimina el valor del 'Array'
+
+   echo '<pre>'; var_dump( $post_data ); echo '</pre>';
+   echo '<pre>'; var_dump( $valores_formulario ); echo '</pre>';
 
  }
 
