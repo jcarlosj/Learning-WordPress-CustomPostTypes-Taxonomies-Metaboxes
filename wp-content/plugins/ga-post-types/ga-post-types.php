@@ -56,8 +56,10 @@ function crear_post_type_recetas() {
     'can_export'          => true,          // [true/false] habilitar o deshabilitar la exportación como XML para importarlo en otro lugar
     'has_archive'         => true,          // [true/false] habilitar o deshabilitar el uso del archivo 'archive.php'
     'exclude_from_search' => false,         // [true/false] habilitar o deshabilitar posibilidad de busqueda de contenidos en el buscador de WordPress
-    'capability_type'     => 'page'         // Capacidad construir capacidades de lectura, edición y eliminación (se puede pasar como 'Array', para permitir plurales alternativos)
+    'capability_type'     => 'page',         // Capacidad construir capacidades de lectura, edición y eliminación (se puede pasar como 'Array', para permitir plurales alternativos)
                                             // en este caos se le pasa un tipo de capacidad definida en WordPress 'page', aunque por defecto si no se definen por defecto tomará 'post'
+    'show_in_rest'        => true,          // [true/false] habilitar o desahabilitar publicación del Custom Post Type como REST API (Resultados JSON)
+    'rest_base'           => 'rest-api-recetas' // Reescribe la base de la publicación de la REST API
   );
 
   // 'register_post_type' Crea y registra un post type en WP
