@@ -13,7 +13,7 @@
  */
 
 get_header(); ?>
-
+		<span class="file">index.php</span>
 	<?php /* Orbit Foundation (Slider) */
 		get_template_part( 'template-parts/slider' );
 	?>

@@ -13,7 +13,7 @@
  */
 
 get_header(); ?>
-
+		<span class="file">page.php</span>
 	<div id="primary" class="content-area medium-8 columns">
 		<main id="main" class="site-main">
 			<span class="file">page.php</span>

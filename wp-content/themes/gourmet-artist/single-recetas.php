@@ -11,13 +11,13 @@ get_header(); ?>
 
 	<div id="primary" class="content-area medium-8 columns">
 		<main id="main" class="site-main">
-
+				<span class="file">single-recetas.php</span>
 		<?php
 		while ( have_posts() ) : the_post();
 
 			// Busca el archivo 'content-recetas' en 'template_parts'
 			get_template_part( 'template-parts/content', get_post_type() );		// Al usar get_post_type() el comportamiento del tipo de post es dinámico
-			#get_template_part( 'template-parts/content', 'recetas' );		    // Al usar el nombre del post (para nuestro caso 'recetas') el comportamiento del tipo de post es estático				
+			#get_template_part( 'template-parts/content', 'recetas' );		    // Al usar el nombre del post (para nuestro caso 'recetas') el comportamiento del tipo de post es estático
 
 			the_post_navigation();
 

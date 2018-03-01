@@ -137,7 +137,6 @@
 				 <a href="<?php the_permalink(); ?>" class="button">Ver Receta</a>
 			<?php endif; ?>
 		</div><!-- .entry-content -->
-
 	</div><!-- .medium-6 columns -->
 
 </article><!-- #post-<?php the_ID(); ?> -->

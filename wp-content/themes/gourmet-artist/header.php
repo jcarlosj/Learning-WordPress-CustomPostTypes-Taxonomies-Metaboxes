@@ -21,6 +21,7 @@
 </head>
 
 <body <?php body_class(); ?>>
+		<span class="file">header.php</span>
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'gourmet-artist' ); ?></a>
 

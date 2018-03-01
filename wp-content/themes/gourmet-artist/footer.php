@@ -14,6 +14,7 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer">
+			<span class="file">footer.php</span>
 		<div class="site-info row">
 			<div class="medium-5 columns">
 				<?php

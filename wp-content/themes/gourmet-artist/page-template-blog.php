@@ -18,7 +18,7 @@ get_header(); ?>
 
 	<div id="primary" class="content-area medium-8 medium-push-2 columns">
 		<main id="main" class="site-main" role="main">
-
+				<span class="file">page-template-blog.php</span>
 			<header>
 				<?php the_title( '<h1 class="entry-title text-center">', '</h1>' ); ?>
 			</header>

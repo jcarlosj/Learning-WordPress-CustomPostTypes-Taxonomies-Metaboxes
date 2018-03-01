@@ -13,7 +13,7 @@ if ( ! is_active_sidebar( 'sidebar-1' ) ) {
 ?>
 
 <aside id="secondary" class="widget-area medium-4 columns" role="complementary">
-
+		<span class="file">sidebar.php</span>
 	<!-- Imagen del Newsletter -->
 	<div class="row">
 		<div class="medium-12 columns">
