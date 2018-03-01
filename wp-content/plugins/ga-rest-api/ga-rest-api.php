@@ -27,12 +27,22 @@ add_action(
 
 # Agrega toda la funcionalidad relacionada con la REST API WordPress
 function rest_api() {
-  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener el ID del Post Anterior
   register_rest_field(
     'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
-    'post_anterior',                                      # (string) Nombre de la llave o atributo
+    'data_post_anterior',                                 # (string) Nombre de la llave o atributo
     array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
-      'get_callback'    => 'id_receta_anterior',          # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
+      'get_callback'    => 'get_id_receta_anterior',      # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
+      'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
+      'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
+    )
+  );
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los datos de los Metaboxes del Post Actual
+  register_rest_field(
+    'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
+    'data_metaboxes',                                     # (string) Nombre de la llave o atributo
+    array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
+      'get_callback'    => 'get_id_post_actual',          # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
       'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
       'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
     )
@@ -45,8 +55,19 @@ add_action(
 );
 
 # CallBack: Recupera el ID del Post Anterior
-function id_receta_anterior() {
+function get_id_receta_anterior() {
   return get_previous_post() -> ID;
 }
+
+function get_id_post_actual() {
+  global $post;                     # Obtiene el objeto del Post Actual y toda su información
+  $post_id = $post -> ID;           # Asigna solo el ID del Post Actual
+  return get_post_meta( $post_id ); # get_post_meta() Recupera el campo de meta del Post
+}
+/* NOTA: get_post_meta( $post_id, $key, $single )
+         $post_id (int) ID del post
+         $key:    (string) [Opcional] El meta (metabox) key para recuperar. Por defecto retorno el valor de todas las claves
+         $single: (boolean) [Opcional] [true/false] Si se devuelve o no un solo valor. Valor por defecto> false
+*/
 
 ?>
