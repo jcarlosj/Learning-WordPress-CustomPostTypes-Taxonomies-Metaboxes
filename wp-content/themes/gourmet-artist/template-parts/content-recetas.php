@@ -139,11 +139,11 @@
 
 
 			<a href="<?php echo get_permalink( get_previous_post() -> ID ); ?>" data-receta-anterior="<?php echo get_permalink( get_previous_post() -> ID ); ?>" >Receta Anterior</a>
-			<pre>
+			<!--pre>
 				<small>
-					<?php	echo var_dump( get_previous_post() ); ?>
+					<?php	# echo var_dump( get_previous_post() ); ?>
 				</small>
-			</pre>
+			</pre-->
 
 		</div><!-- .entry-content -->
 	</div><!-- .medium-6 columns -->
