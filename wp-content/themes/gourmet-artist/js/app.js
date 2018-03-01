@@ -2,6 +2,11 @@ $ = jQuery .noConflict();
 
 $( document ) .ready( function() {
 
+    /*** Limpiamos todos los campos del Formulario Enviar Receta (Cualquiera de las 3 opciones funciona)  ***/
+    //document .getElementById( 'form_enviar_receta' ) .reset();
+    //$( '#form_enviar_receta' )[ 0 ] .reset();    // Evita que al darle atrás al navegador se guarden los valores insertados en los campos con anterioridad
+    $( '#form_enviar_receta' ) .trigger( 'reset' );
+
     $( document ) .foundation();
 
     /*** Orbit Foundation (Slider) ***/

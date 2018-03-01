@@ -238,25 +238,32 @@ add_action(
 
      # Mensaje de notificación de ERROR en el formulario
      if ( ( $error = $formulario -> prop( 'submission_error' ) ) && is_wp_error( $error ) ) {
-   		// If there was an error with the submission, add it to our ouput.
-   		$template_html .= '<h4>' . sprintf( __( 'Hubo un error con el formulario: %s', 'ga_artist' ), '<strong>'. $error->get_error_message() .'</strong>' ) . '</h4>';    # Imprime Mensaje de Error
- 	  }
-    /* NOTA: prop() es una función del CMB2 que permite obtener la propiedad del metabox y opcionalmente establecer un respaldo
-             'submission_error' propiedad para validar el envío correcto de un formulario CMB2
-             is_wp_error() es una función de WordPress y comprueba si la variable es un ERROR de WordPress */
+     		// If there was an error with the submission, add it to our ouput.
+     		$template_html .= '<h4>' . sprintf( __( 'Hubo un error con el formulario: %s', 'ga_artist' ), '<strong>'. $error -> get_error_message() .'</strong>' ) . '</h4>';    # Imprime Mensaje de Error
+   	  }
 
-     # Mensaje de Notificación de Envio de Post Exitoso
-     if ( isset( $_GET[ 'post_submitted' ] ) && ( $post = get_post( absint( $_GET[ 'post_submitted' ] ) ) ) ) {     # absint(): Valida que sea un valor entero absoluto
+      /* NOTA: prop() es una función del CMB2 que permite obtener la propiedad del metabox y opcionalmente establecer un respaldo
+               'submission_error' propiedad para validar el envío correcto de un formulario CMB2
+               is_wp_error() es una función de WordPress y comprueba si la variable es un ERROR de WordPress */
 
-     		# Obtener el nombre del usuario proporcionado en el formulario
-        $nombre = get_post_meta( # Recupera el campo del meta de publicación de un Post como 'Array'
-          $post -> ID,           # (int) ID de publicación
-          'autor_receta',        # (string) La meta clave para recuperar. Por defecto devuelve datos para todas las claves. Valor por defecto "". 'autor_receta' hace referencia al campo del formulario
-          1                      # (bool) Si se devuelve o no un solo valor. Valor por defecto: false
+      /*# TODEBUG
+      if( isset( $_GET ) ) {
+        $template_html .= '<pre>$_GET: ' .var_dump( $_GET ). '</pre>';
+      }*/
+
+      # Mensaje de Notificación de Envio de Post Exitoso
+      if ( isset( $_GET[ 'post_submmited' ] ) && ( $post = get_post( absint( $_GET[ 'post_submmited' ] ) ) ) ) {
+
+     		// Get submitter's name
+     		$nombre = get_post_meta(    # Recupera el campo del meta de publicación de un Post como 'Array'
+          $post -> ID,              # (int) ID de publicación
+          'autor',                  # (string) La meta clave para recuperar. Por defecto devuelve datos para todas las claves. Valor por defecto "". 'autor_receta' hace referencia al campo del formulario
+          1                         # (bool) Si se devuelve o no un solo valor. Valor por defecto: false
         );
      		$nombre = $nombre ? ' '. $nombre : '';
 
-     		$template_html .= '<h4>' . sprintf( __( 'Gracias %s tú receta ha sido agregada, una vez que pase la revisión será publicada', 'ga_artist' ), esc_html( $nombre ) ) . '</h4>';      # Imprime Mensaje de Éxito
+     		// Imprimir un aviso.
+     		$template_html .= '<h3>' . sprintf( __( 'Gracias %s, Tu receta ha sido agregada, una vez que pase la revisión será publicada', 'ga_artist' ), esc_html( $nombre ) ) . '</h3>';
      	}
       /* NOTA: get_post_meta() recupera campo del meta de publicación de un Post como 'Array' si $single es false. Será el valor del campo de metadatos si $single es true.
                get_post_type() recupera el tipo de publicación de un Post Actual o un Post Determinado (int/WP_Post/null $post = null). Valor por defecto: null
@@ -306,13 +313,13 @@ add_action(
 
    /*** SANITIZAR LOS DATOS ***/
    $valores_formulario = $formulario -> get_sanitized_values( $_POST );
-   echo '<pre>'; var_dump( $valores_formulario ); echo '</pre>';
+   #echo '<pre>'; var_dump( $valores_formulario ); echo '</pre>';
 
    # Agrega los valores del Formulario 'Array' a la variable $post_data (vacía)
    $post_data[ 'post_title' ] = $valores_formulario[ 'titulo' ];        # Asigna el valor
-   unset( $valores_formulario[ 'titulo' ] );                            # Elimina el valor del 'Array'
+   #unset( $valores_formulario[ 'titulo' ] );                            # Elimina el valor del 'Array'
    $post_data[ 'post_content' ] = $valores_formulario[ 'contenido' ];   # Asigna el valor
-   unset( $valores_formulario[ 'contenido' ] );                         # Elimina el valor del 'Array'                            # Elimina el valor del 'Array'
+   #unset( $valores_formulario[ 'contenido' ] );                         # Elimina el valor del 'Array'                            # Elimina el valor del 'Array'
 
    # Extrae cada una de las etiquetas (Estado de Ánimo)
    $estado_animo = explode( ',', $valores_formulario[ 'estado' ] );
@@ -355,10 +362,47 @@ add_action(
    # Guardamos los campos de CMB2
    $formulario -> save_fields( $post_id, 'post', $valores_formulario );
 
+   # Agrega imagen destacada
+   $img_id = enviar_imagen_destacada(
+     $post_id,            # ID del Post
+     $post_data           # Toda la información del formulario
+   );
+
+   # Valida que exista un $img_id y que no existan errores contra WordPress para subir la imagen
+   if ( $img_id && !is_wp_error( $img_id ) ) {
+     set_post_thumbnail(          # Establecer una imagen en un post_type
+       $post_id ,                 # ID del Post
+       $img_id                    # ID de la imagen
+     );
+   }
+
    # Redireccionamos para prevenir que al recargar no se hagan registros duplicados dentro del Post Type
-   wp_redirect( esc_url_raw( add_query_arg( 'post_submmited', $post_id ) ) );
+   wp_redirect(
+     esc_url_raw(              # Realiza esc_url() para el uso de la base de datos
+       add_query_arg(          # add_query_arg() Reconstruye la URL y anexa variables de consulta a la URL.
+         'post_submmited',
+         $post_id
+       )
+     )
+  );
    exit;        # Siempre que se use wp_redirect() es necesario que se use exit
 
+   /* NOTA: add_query_arg() Hay dos formas de usar esta función: la primera con una sola clave y valor, o con un 'Array' asociativo
+              Primera forma: add_query_arg( 'key', 'value', 'http://dominio.co' );
+              Segunda forma: add_query_arg(
+                                array(
+                                'key1' => 'value1',
+                                'key2' => 'value2'
+                              ),
+                              'http://dominio.co'
+                             );
+            esc_url_raw( $url, $protocolos )
+                $url: (string) URL a limpiar
+                $protocolos: (Array) [Opcional] Protocolos aceptables. Valor predeterminado: null
+            esc_url( $url, $protocolos, $_context )
+                $url: (string) URL a limpiar
+                $protocolos: (Array) [Opcional] Protocolos aceptables. Valor predeterminado: null
+                $_context: (string) [Opcional] Privado. Valor predeterminado: display  */
  }
 
  // Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
@@ -366,4 +410,37 @@ add_action(
    'cmb2_after_init',        # Lugar donde queremos que se ejecute la funcionalidad dentro del Plugin CMB2
    'insertar_receta'         # La funcionalidad o código a desplegar
  );
+
+ function enviar_imagen_destacada( $post_id, $attachment_post_data = array() ) {
+   # Valida si la variable global esta vacía, si el campo 'imagen_destacada' no existe en la varable global o si existe un error
+   if( empty( $_FILES ) || !isset( $_FILES[ 'imagen_destacada' ] ) || isset( $_FILES[ 'imagen_destacada' ][ 'error' ] ) && 0 !== $_FILES[ 'imagen_destacada' ][ 'error' ] ) {
+     return;      # Con el Return detenemos la ejecución del Script
+   }
+
+   # Filtra los valores del campo de 'imagen_destacada'
+   $archivo = array_filter( $_FILES[ 'imagen_destacada' ] );
+
+   # Valida que el archivo subido NO sea valido
+   if( empty( $archivo ) ) {
+     return;      # Con el Return detenemos la ejecución del Script
+   }
+
+
+   # Valida si los métodos necesarios para subir la imagen NO estan disponibles
+   if( !function_exists( 'media_handle_upload' ) ) {
+     # En caso de no estarlo entonces los requiere para poder usar sus FUNCIONALIDADES
+     require_once( ABSPATH. 'wp-admin/includes/image.php' );
+     require_once( ABSPATH. 'wp-admin/includes/file.php' );
+     require_once( ABSPATH. 'wp-admin/includes/media.php' );
+   }
+   /* NOTA: ABSPATH es la ruta absoluta del proyecto WordPress */
+
+   #Subir el archivo y agregarlo como imagen imagen_destacada y lo retorna
+   return media_handle_upload(
+    'imagen_destacada',         # Nombre de la imagen destacada
+    $post_id,                   # ID del Post donde se va a Agregar
+    $attachment_post_data       # Attachment Post Data (Publicación de datos adjuntos)
+   );
+ }
+
  ?>
