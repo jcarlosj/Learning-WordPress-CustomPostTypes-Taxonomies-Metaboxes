@@ -47,6 +47,16 @@ function rest_api() {
       'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
     )
   );
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los datos de los Metaboxes del Post Actual
+  register_rest_field(
+    'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
+    'data_taxonomies',                                    # (string) Nombre de la llave o atributo
+    array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
+      'get_callback'    => 'get_taxonomias',              # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
+      'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
+      'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
+    )
+  );
 }
 // Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
 add_action(
@@ -68,6 +78,15 @@ function get_id_post_actual() {
          $post_id (int) ID del post
          $key:    (string) [Opcional] El meta (metabox) key para recuperar. Por defecto retorno el valor de todas las claves
          $single: (boolean) [Opcional] [true/false] Si se devuelve o no un solo valor. Valor por defecto> false
+*/
+
+function get_taxonomias() {
+  global $post;                           # Obtiene el objeto del Post Actual y toda su información
+  return get_object_taxonomies( $post );  # get_object_taxonomies() Retorna los nombres u objetos de las taxonomías registradas en un Post determinado
+}
+/* NOTA: get_object_taxonomies( $object, $output )
+         $object: (string/Array/WP_Post) Nombre del Objeto o Post de Taxonomía
+         $output: (string) [Opcional] Salida a devolver en 'Array'. Acepta taxonomía 'names' y 'objects'. Valor por defecto: names
 */
 
 ?>
