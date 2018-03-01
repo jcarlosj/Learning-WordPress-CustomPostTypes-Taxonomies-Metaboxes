@@ -7,7 +7,7 @@ $( document ) .ready( function() {
         hora  = fecha .getHours(),
         sugerencia = '';
 
-    console .log( fecha );
+    //console .log( fecha );
 
     // Valida la hora para obtener el mensaje de sugerencia
     if( hora <= 10 ) {
@@ -47,7 +47,7 @@ $( document ) .ready( function() {
           </div>
         `;
 
-        console .log( object );
+        //console .log( object );
 
         // Despliega datos en la vista
         $( '#sugerencia-recetas-horario' ) .append( template );
