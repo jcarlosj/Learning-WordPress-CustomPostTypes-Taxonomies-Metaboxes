@@ -147,7 +147,10 @@ function get_terminos_precio() {
   $post_id = $post -> ID;
   return get_the_term_list(
     $post_id,        # ID del POST
-    'precio_receta'  # Nombre de la taxonomía
+    'precio_receta', # Nombre de la taxonomía
+    '',              # Agrega antes del listado de términos
+    ', ',            # Separador entre cada término
+    ''               # Agrega después del listado de términos
   );
 }
 
@@ -157,7 +160,10 @@ function get_terminos_tipo_receta() {
   $post_id = $post -> ID;
   return get_the_term_list(
     $post_id,       # ID del POST
-    'tipo_receta'   # Nombre de la taxonomía
+    'tipo_receta',  # Nombre de la taxonomía
+    '',              # Agrega antes del listado de términos
+    ', ',            # Separador entre cada término
+    ''               # Agrega después del listado de términos
   );
 }
 
@@ -167,7 +173,10 @@ function get_terminos_horario() {
   $post_id = $post -> ID;
   return get_the_term_list(
     $post_id,       # ID del POST
-    'horario_menu'  # Nombre de la taxonomía
+    'horario_menu', # Nombre de la taxonomía
+    '',              # Agrega antes del listado de términos
+    ', ',            # Separador entre cada término
+    ''               # Agrega después del listado de términos
   );
 }
 
@@ -177,7 +186,10 @@ function get_terminos_estado_animo() {
   $post_id = $post -> ID;
   return get_the_term_list(
     $post_id,       # ID del POST
-    'estado_animo'  # Nombre de la taxonomía
+    'estado_animo', # Nombre de la taxonomía
+    '',              # Agrega antes del listado de términos
+    ', ',            # Separador entre cada término
+    ''               # Agrega después del listado de términos
   );
 }
 
