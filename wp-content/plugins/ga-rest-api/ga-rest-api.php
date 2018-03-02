@@ -13,9 +13,19 @@
 function rest_api_scripts() {
   /* Implementa archivo JavaScript para el Manejo de Datos con AJAX en WordPress (Horario Comida) en 'index.php' */
   wp_enqueue_script(
-    'resp-api-recetas-js',
-    plugin_dir_url( __FILE__ ). '/js/rest-api-recetas.js'
+    'xhr-resp-api-recetas-js',
+    plugin_dir_url( __FILE__ ). '/js/xhr-rest-api-recetas.js'
   );
+
+  /* Localiza una secuencia de comandos (Funciona solo si el script ya se ha agregado) */
+	wp_localize_script(
+		'xhr-resp-api-recetas-js',		                    // Nombre del Manejador de scripts que adjuntará WP a los datos
+		'url_rest_api',									                  // Nombre para el Objeto JavaScript
+		array(												                    // Datos que se pasarán al Objeto 'rest_url'
+			'url' => rest_url( 'wp/v2/rest-api-recetas/' )	// rest_url() es una función de WordPress que recupera el URL a un 'endpoint' (punto de entrada final) REST para el sitio actual
+		)
+	);
+
 }
 // Hook: es la acción que permite identificar una funcionalidad por WP y donde se desea ejecutar
 add_action(
