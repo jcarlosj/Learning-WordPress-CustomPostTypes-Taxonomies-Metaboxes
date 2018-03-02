@@ -27,7 +27,7 @@ add_action(
 
 # Agrega toda la funcionalidad relacionada con la REST API WordPress
 function rest_api() {
-  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener el ID del Post Anterior
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener el ID del POST ANTERIOR
   register_rest_field(
     'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
     'data_post_anterior',                                 # (string) Nombre de la llave o atributo
@@ -37,22 +37,62 @@ function rest_api() {
       'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
     )
   );
-  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los datos de los Metaboxes del Post Actual
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los datos de los METABOXES del Post Actual
   register_rest_field(
     'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
     'data_metaboxes',                                     # (string) Nombre de la llave o atributo
     array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
-      'get_callback'    => 'get_id_post_actual',          # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
+      'get_callback'    => 'get_metaboxes',               # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
       'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
       'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
     )
   );
-  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los datos de los Metaboxes del Post Actual
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los datos de las TAXONOMIAS del Post Actual
   register_rest_field(
     'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
     'data_taxonomies',                                    # (string) Nombre de la llave o atributo
     array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
       'get_callback'    => 'get_taxonomias',              # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
+      'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
+      'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
+    )
+  );
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los TÉRMINOS DE LA TAXONOMÍA 'precio_receta' del Post Actual
+  register_rest_field(
+    'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
+    'data_termino_precio',                                # (string) Nombre de la llave o atributo
+    array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
+      'get_callback'    => 'get_terminos_precio',         # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
+      'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
+      'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
+    )
+  );
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los TÉRMINOS DE LA TAXONOMÍA 'tipo_receta' del Post Actual
+  register_rest_field(
+    'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
+    'data_termino_tipo_receta',                           # (string) Nombre de la llave o atributo
+    array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
+      'get_callback'    => 'get_terminos_tipo_receta',    # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
+      'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
+      'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
+    )
+  );
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los TÉRMINOS DE LA TAXONOMÍA 'horario_menu' del Post Actual
+  register_rest_field(
+    'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
+    'data_termino_horario',                               # (string) Nombre de la llave o atributo
+    array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
+      'get_callback'    => 'get_terminos_horario',        # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
+      'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
+      'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
+    )
+  );
+  # register_rest_field() Registra un nuevo campo de un tipo de Objeto existente en WordPress, para obtener los TÉRMINOS DE LA TAXONOMÍA 'estado_animo' del Post Actual
+  register_rest_field(
+    'recetas',                                            # (string/array) Nombre del Post Type u Objeto(s) en el que se está registrando el campo
+    'data_termino_estado',                                # (string) Nombre de la llave o atributo
+    array(                                                # (array) [Opcional] Argumentos utilizados para manejar el campo registrado
+      'get_callback'    => 'get_terminos_estado_animo',   # (string/Array/null) [Opcional] CallBack: Función que retorna el valor recuperado del campo. Valor por defecto: null, el campo no se devolverá en la respuesta
       'schema'          => null,                          # (string/Array/null) [Opcional] Función para crear un schema para este campo. El valor por defecto es: null, no se devolverá ningún schema
       'update_callback' => null                           # (string/Array/null) [Opcional] CallBack: Función para establecer o actualizar el valor del campo. Valor por defecto: null, el campo no se podrá establecer o actualizr el campo
     )
@@ -69,7 +109,8 @@ function get_id_receta_anterior() {
   return get_previous_post() -> ID;
 }
 
-function get_id_post_actual() {
+# CallBack: Recupera los metaboxes del Post Actual
+function get_metaboxes() {
   global $post;                     # Obtiene el objeto del Post Actual y toda su información
   $post_id = $post -> ID;           # Asigna solo el ID del Post Actual
   return get_post_meta( $post_id ); # get_post_meta() Recupera el campo de meta del Post
@@ -80,6 +121,7 @@ function get_id_post_actual() {
          $single: (boolean) [Opcional] [true/false] Si se devuelve o no un solo valor. Valor por defecto> false
 */
 
+# CallBack: Recupera las taxonomías del Post Actual
 function get_taxonomias() {
   global $post;                           # Obtiene el objeto del Post Actual y toda su información
   return get_object_taxonomies( $post );  # get_object_taxonomies() Retorna los nombres u objetos de las taxonomías registradas en un Post determinado
@@ -87,6 +129,69 @@ function get_taxonomias() {
 /* NOTA: get_object_taxonomies( $object, $output )
          $object: (string/Array/WP_Post) Nombre del Objeto o Post de Taxonomía
          $output: (string) [Opcional] Salida a devolver en 'Array'. Acepta taxonomía 'names' y 'objects'. Valor por defecto: names
+*/
+
+# CallBack: Recupera los términos de la taxonomía 'precio_receta' del Post Actual
+function get_terminos_precio() {
+  global $post;
+  $post_id = $post -> ID;
+  return get_the_term_list(
+    $post_id,        # ID del POST
+    'precio_receta'  # Nombre de la taxonomía
+  );
+}
+
+# CallBack: Recupera los términos de la taxonomía 'tipo_receta' del Post Actual
+function get_terminos_tipo_receta() {
+  global $post;
+  $post_id = $post -> ID;
+  return get_the_term_list(
+    $post_id,       # ID del POST
+    'tipo_receta'   # Nombre de la taxonomía
+  );
+}
+
+# CallBack: Recupera los términos de la taxonomía 'horario_menu' del Post Actual
+function get_terminos_horario() {
+  global $post;
+  $post_id = $post -> ID;
+  return get_the_term_list(
+    $post_id,       # ID del POST
+    'horario_menu'  # Nombre de la taxonomía
+  );
+}
+
+# CallBack: Recupera los términos de la taxonomía 'estado_animo' del Post Actual
+function get_terminos_estado_animo() {
+  global $post;
+  $post_id = $post -> ID;
+  return get_the_term_list(
+    $post_id,       # ID del POST
+    'estado_animo'  # Nombre de la taxonomía
+  );
+}
+
+/* NOTA: get_the_term_list() Recupera los términos de una publicación como una lista con formato especificado
+         get_the_term_list( $di, $taxonomy, $before, $separation, $after );
+         $id         (int) Id del POST
+         $taxonomy   (string) Nombre de la taxonomía
+         $before     (string) [Opcional] Lo que se agregará antes de la lista de términos generados. Valor por defecto: ''
+         $separation (string) [Opcional] Lo que separará a cada uno de los términos de la lista. Valor por defecto: ''
+         $after      (string) [Opcional] Lo que se agregará despúes de la lista de términos generados. Valor por defecto: ''
+
+         Si deseamos devolver los valores sin formato se puede hacer uso de la función de WordPress wp_get_post_terms()
+         wp_get_post_terms( $post_id, $taxonomy, $args )
+         $post_id    (int) Id del POST. Valor por defecto: 0
+         $taxonomy   (string/Array) [Opcional] Nombre de la taxonomía. Valor por defecto: 'post_tag'
+         $args       (Array) [Opcional] Parámetros de consulta de términos
+            'fields' (string) Nombre de los campos de los terminos a recuperar. Valor por defecto: 'all'
+
+         wp_get_post_terms(
+           $post_id,       # ID del POST
+           'estado_animo',  # Nombre de la taxonomía
+           array(
+             'fields' => 'names'
+           )
 */
 
 ?>
