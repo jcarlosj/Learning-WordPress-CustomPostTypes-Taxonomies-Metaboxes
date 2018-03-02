@@ -50,10 +50,21 @@ $( document ) .ready( function() {
 
   // Carga el Post Anterior
   function load_previous_post() {
-    console .log( 'Carga el Post Anterior' );
+    // Obtiene el ID del último elemento 'a' con la clase 'receta_anterior'
+    var idUltimoElementoA = $( '.receta-anterior' ) .last() .attr( 'data-receta-anterior' ),
+        json_url = url + idUltimoElementoA;
 
-    function template_post() {
+    //console .log( json_url );
 
+    $.ajax({
+      dataType: 'json',
+      url: json_url,
+    }) .done( function( response ) {
+      template_post( response );
+    });
+
+    function template_post( data ) {
+      console .log( data );
     }
 
   }
