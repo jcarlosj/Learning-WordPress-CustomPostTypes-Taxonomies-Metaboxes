@@ -138,7 +138,7 @@
 			<?php endif; ?>
 
 
-			<a href="<?php echo get_permalink( get_previous_post() -> ID ); ?>" data-receta-anterior="<?php echo get_permalink( get_previous_post() -> ID ); ?>" >Receta Anterior</a>
+			<a class="receta-anterior" href="<?php echo get_permalink( get_previous_post() -> ID ); ?>" data-receta-anterior="<?php echo get_permalink( get_previous_post() -> ID ); ?>" >Receta Anterior</a>
 			<!--pre>
 				<small>
 					<?php	# echo var_dump( get_previous_post() ); ?>
