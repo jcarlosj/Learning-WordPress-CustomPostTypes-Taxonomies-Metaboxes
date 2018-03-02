@@ -13,7 +13,7 @@
 	<?php if( is_singular() ): # Condicional para la imagen ?>
 		<span class="file">content-recetas.php</span>
 		<?php the_title( '<h1 class="entry-title text-center">', '</h1>' ); ?>
-		<?php the_post_thumbnail(); ?>
+		<?php the_post_thumbnail( 'slider-image' ); ?>
 	<?php else: ?>
 		<div class="imagen medium-6 columns">
 			<?php the_post_thumbnail( 'entry-image' ); ?>
@@ -134,7 +134,7 @@
 						 'after'  => '</div>',
 					 ) );
 				 ?>
-				 <a href="<?php the_permalink(); ?>" class="button">Ver Receta</a>
+				 <!--a href="<?php #the_permalink(); ?>" class="button">Ver Receta</a-->
 			<?php endif; ?>
 
 

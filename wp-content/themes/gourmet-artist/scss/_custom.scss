@@ -681,3 +681,20 @@ footer {
     }
   }
 }
+
+
+/* Template: page-buscador.php */
+#content {
+  .content-area {
+    div {
+      &.entry-content {
+        a {
+          // Para que el enlace no sea visible pero haga parte del cuerpo del documento
+          &.receta-anterior {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+  }
+}
